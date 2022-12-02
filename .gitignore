@@ -1,0 +1,13 @@
+mesher/cube-stl/results
+mesher/cube-tess/results
+mesher/custom-csv/results
+optimiser/results
+simulator/results
+tessellator/results
+
+mesher/cube-stl/nohup.out
+mesher/cube-tess/nohup.out
+mesher/custom-csv/nohup.out
+optimiser/nohup.out
+simulator/nohup.out
+tessellator/nohup.out
