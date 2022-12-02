@@ -2,13 +2,17 @@
 
 The purpose of the following repository is to facillitate the development of crystal plasticity finite element models. These models are developed for the prediction of complex material behaviours, such as crack propagation, creep, fatigue, tensile, etc.
 
+## Common
+
+The `__common__` directory contains helper code that may be used in other directories.
+
 ## Mesher
 
 The `mesher` directory contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The directory comprises three subdirectories.
 
-* `cube-tesr` creates a mesh of a cube based on a tessellation file.
-* `cube-stl` creates a mesh of a cube based on STL files.
-* `custom-csv` creates a extruded mesh of a custom shape based on a CSV file of the voxel positions and crystal orientations.
+* `tess_cube` creates a mesh of a cube based on a tessellation file.
+* `stl_cube` creates a mesh of a cube based on STL files.
+* `custom` creates a extruded mesh of a custom shape based on a CSV file of the voxel positions and crystal orientations.
 
 ## Optimiser
 

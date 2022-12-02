@@ -6,7 +6,7 @@
 """
 
 # Libraries
-from modules.simulator import Simulator
+from modules.api import API
 
 # Parameters
 DEER_PATH           = "~/moose/deer/deer-opt"
@@ -16,7 +16,7 @@ ORIENTATION_FILE    = "stats.csv"
 VERBOSE_DISPLAY     = True
 
 # Code
-sim = Simulator(DEER_PATH, NUM_PROCESSORS, MESH_FILE, ORIENTATION_FILE, VERBOSE_DISPLAY)
-sim.define_material()
-sim.define_simulation()
-sim.commence()
+api = API(DEER_PATH, NUM_PROCESSORS, MESH_FILE, ORIENTATION_FILE, VERBOSE_DISPLAY)
+api.define_material()
+api.define_simulation()
+api.commence()
