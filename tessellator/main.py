@@ -16,7 +16,7 @@ TWIN_WIDTH  = [1.46831, 0.79859, 1.21113, 284.433]
 # Code
 api = API()
 # api.load_parents("results/rve500.tess")
-api.define_domain(120, 3)
+api.define_domain(1000, 3)
 api.add_parents(EQ_RADIUS, SPHERICITY)
 api.visualise()
 # api.add_twins(TWIN_WIDTH)

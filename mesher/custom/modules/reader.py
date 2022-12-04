@@ -53,12 +53,12 @@ def read_pixels(path, step_size):
         row_list = prev_row if "NaN" in row_list else row_list # if NaN, use previous pixel data
         row_list = [float(val) for val in row_list]
         prev_row = row_list
-        grain_id = round(row_list[graid_id_index])
+        grain_id = round(row_list[graid_id_index]) + 1 # 1 dedicated to dead pixels
 
         # Add to pixel grid
         x = round(float(row_list[x_index] - x_min) / step_size)
         y = round(float(row_list[y_index] - y_min) / step_size)
-        pixel_grid[y][x] = grain_id + 1
+        pixel_grid[y][x] = grain_id
 
         # Add to grain map if not yet added
         if not grain_id in grain_map:

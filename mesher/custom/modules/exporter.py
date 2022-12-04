@@ -11,7 +11,7 @@ from modules.maths.pixel_maths import DEAD_PIXEL_ID
 
 # Exports grain statistics
 def export_statistics(pixel_grid, grain_map, statistic_list, path, include_header):
-    
+
     # Get existing IDs
     id_list = [pixel for pixel_list in pixel_grid for pixel in pixel_list]
     id_list = list(dict.fromkeys(id_list))

@@ -16,7 +16,7 @@ PARAM_LIST  = [float(param) for param in PARAM_STR.split("\t")]
 api = API(True)
 api.read_data(["G32", "G33", "G44", "G25"]) # ["G32", "G33", "G44", "G25"] # ["G59", "G45", "G50", "G22"]
 # api.remove_damage()
-api.define_model("evp")
+api.define_model("evpwd")
 api.plot_results(PARAM_LIST)
 # api.define_errors(["y_area", "dy_area"])
 # api.get_errors(PARAM_LIST)

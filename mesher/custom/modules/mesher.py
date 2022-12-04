@@ -19,7 +19,7 @@ BEGIN SCULPT
     nelx = {x_cells}
     nely = {y_cells}
     nelz = {z_cells}
-    
+
     smooth = 2
     defeature = 1
     remove_bad = 0.0
@@ -69,4 +69,3 @@ def coarse_mesh(psculpt_path, results_dir, pixel_grid, thickness):
     command = f"mpiexec -n {NUM_PROCESSORS} {psculpt_path} -j {NUM_PROCESSORS} -i {results_dir}/{INPUT_FILE}"
     subprocess.run([command], shell = True, check = True)
     os.rename(f"{results_dir}/{EXODUS_FILE}.e.1.0", f"{results_dir}/{EXODUS_FILE}.e")
-    exit() # DELETE ME

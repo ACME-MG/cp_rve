@@ -40,14 +40,14 @@ DEFAULT_MUTATION    = 0.35
 class API:
 
     # Constructor
-    def __init__(self, name = "", fancy = False):
+    def __init__(self, fancy=False, title="", verbose=False):
         
         # Initialise progress visualiser
-        self.prog = Progressor(fancy)
+        self.prog = Progressor(fancy, title, verbose)
 
         # Initialise paths
         self.output_dir  = time.strftime("%y%m%d%H%M%S", time.localtime(time.time()))
-        self.output_dir  = self.output_dir if name == "" else f"{self.output_dir} ({name})"
+        self.output_dir  = self.output_dir if title == "" else f"{self.output_dir} ({title})"
         self.output_path = "{}/{}".format(RESULTS_DIR, self.output_dir)
         self.csv_path    = "{}/{}".format(self.output_path, CSV_FILE)
 

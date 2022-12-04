@@ -6,7 +6,7 @@
 """
 
 # Libraries
-import time, os
+import time, subprocess
 import modules.converter as converter
 import modules.coarse_mesher as mesher
 
@@ -23,21 +23,22 @@ RESULTS_DIR = "./results"
 class API:
 
     # Constructor
-    def __init__(self, fancy=False):
+    def __init__(self, fancy=False, title="", verbose=False):
         
         # Initialise
-        self.prog = Progressor(fancy)
+        self.prog = Progressor(fancy, title, verbose)
 
         # Set up paths
         self.output_dir  = time.strftime("%y%m%d%H%M%S", time.localtime(time.time()))
-        self.output_path = f"{RESULTS_DIR}/{self.output_dir}"
+        self.output_path = f"{RESULTS_DIR}/{self.output_dir}_{title}"
         safe_mkdir(RESULTS_DIR)
         safe_mkdir(self.output_path)
 
         # Define file paths
         self.tesr_path      = f"{self.output_path}/rve.tesr"
+        self.image_path     = f"{self.output_path}/raster"
         self.spn_path       = f"{self.output_path}/rve.spn"
-        self.exodus_path    = f"{self.output_path}/mesh.e"
+        self.exodus_path    = f"{self.output_path}/mesh"
         self.input_path     = f"{self.output_path}/sculpt_input.i"
 
     # Converts from tessellation to raster tessellation
@@ -47,6 +48,12 @@ class API:
         self.num_voxels = num_voxels
         converter.tess_2_tesr(tess_path, self.tesr_path, num_voxels)
   
+    # Visualises a raster tessellation
+    def visualise(self):
+        self.prog.add("Visualising the raster tessellation")
+        command = f"neper -V {self.tesr_path} -print {self.image_path}"
+        subprocess.run([command], shell = True, check = True)
+
     # Converts from raster tessellation to spn file
     def tesr_2_spn(self):
         self.prog.add("Converting raster tessellation into spn file")

@@ -9,8 +9,8 @@
 import inspect
 import modules.tessellator as tessellator
 import modules.exporter as exporter
-import modules.helper.progressor as progressor
 from modules.orientation.csl import CSL_DICT
+import modules.helper.progressor as progressor
 from modules.helper.general import *
 
 # API class

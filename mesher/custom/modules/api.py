@@ -27,18 +27,18 @@ RESULTS_DIR = "./results"
 class API:
 
     # Constructor
-    def __init__(self, fancy=False, name=""):
+    def __init__(self, fancy=False, title="", verbose=False):
         
         # Initialise
         self.pixel_grid = []
         self.grain_map  = {}
-        self.prog       = Progressor(fancy, name)
+        self.prog       = Progressor(fancy, title, verbose)
         self.img_count  = 1
 
         # Set up environment
-        name = "" if name == "" else f" ({name})"
+        title = "" if title == "" else f" ({title})"
         self.output_dir  = time.strftime("%y%m%d%H%M%S", time.localtime(time.time()))
-        self.output_path = f"{RESULTS_DIR}/{self.output_dir}{name}"
+        self.output_path = f"{RESULTS_DIR}/{self.output_dir}{title}"
         safe_mkdir(RESULTS_DIR)
         safe_mkdir(self.output_path)
 

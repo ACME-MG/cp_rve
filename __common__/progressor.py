@@ -22,9 +22,9 @@ class Progressor:
     def __init__(self, fancy=False, title="", verbose=False):
 
         # Initialise inputs
-        self.fancy = fancy
-        self.final_message = title
-        self.verbose = verbose
+        self.fancy          = fancy
+        self.final_message  = title
+        self.verbose        = verbose
         
         # Initialise auxiliary
         self.message_list = []
@@ -84,6 +84,7 @@ class Progressor:
             pass
 
         # Display progress
+        self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
         self.message_list[-1]["complete"] = True
         if not self.verbose:
             os.system('cls' if os.name == 'nt' else 'clear')

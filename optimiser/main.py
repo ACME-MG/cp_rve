@@ -9,10 +9,10 @@
 from modules.api import API
 
 # Code
-api = API("evpwd 25,44", fancy=True)
+api = API(False, "evpcd 25,44")
 api.read_data(["G44", "G25"]) # ["G32", "G33", "G44", "G25"] # ["G59", "G45", "G50", "G22"]
 # api.remove_damage()
-api.define_model("evpwd")
+api.define_model("evpcd")
 api.define_errors(["dy_area", "y_area", "x_end", "y_end"]) # ["dy_area", "x_area", "y_area", "x_end", "y_end"]
 api.prepare_objective()
 api.prepare_recorder(10, 10)
