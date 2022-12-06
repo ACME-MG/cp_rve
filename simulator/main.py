@@ -10,9 +10,9 @@ from modules.api import API
 
 # Parameters
 DEER_PATH           = "~/moose/deer/deer-opt"
-NUM_PROCESSORS      = 4
-MESH_FILE           = "sculpt.e"
-ORIENTATION_FILE    = "stats.csv"
+NUM_PROCESSORS      = 128
+MESH_FILE           = "mesh.e"
+ORIENTATION_FILE    = "orientation.csv"
 VERBOSE_DISPLAY     = True
 
 # Code
