@@ -439,16 +439,16 @@ SIMULATION_FORMAT = """
 
   # Options for PETSc (solving linear equations)
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
-  petsc_options_iname = '-pc_type -pc_factor_mat_solver_package -ksp_gmres_restart -pc_hypre_boomeramg_strong_threshold -pc_hypre_boomeramg_interp_type -pc_hypre_boomeramg_coarsen_type -pc_hypre_boomeramg_agg_nl -pc_hypre_boomeramg_agg_num_paths -pc_hypre_boomeramg_truncfactor'
-  petsc_options_value = 'hypre boomeramg 200 0.7 ext+i PMIS 4 2 0.4'
+  petsc_options_iname = '-pc_type -pc_hypre_type'
+  petsc_options_value = 'hypre boomeramg'
   line_search = 'none'
 
   # Newton-Raphson solver
   solve_type = NEWTON
 
   # Tolerances on non-linear solve
-  nl_rel_tol = 1e-5
-  nl_abs_tol = 1e-5
+  nl_rel_tol = 1e-6
+  nl_abs_tol = 1e-6
   nl_max_its = 16
   nl_forced_its = 2
   n_max_nonlinear_pingpong = 1
@@ -487,15 +487,6 @@ SIMULATION_FORMAT = """
     type = Exodus
     # elemental_as_nodal = true
     interval = 2
-  [../]
-
-  # Console Output
-  [./console]
-    type = Console
-    show = 'dt mCS_xx mTE_xx mTE_yy mTE_zz ma mb mD'
-    output_linear = false
-    print_mesh_changed_info = true
-    max_rows = 5
   [../]
 
   # CSV Output
