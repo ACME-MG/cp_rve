@@ -34,8 +34,8 @@ BEGIN SCULPT
     # Solver
     laplacian_iters = 10
     max_opt_iters = 100
-    adapt_type = 5
-    adapt_levels = {levels}
+    # adapt_type = 5
+    # adapt_levels = {levels}
     
     # Output
     input_spn = {spn_file}

@@ -14,7 +14,7 @@ SPHERICITY  = [-1.6229, 0.40402, 0.02316, 0.57725]
 TWIN_WIDTH  = [1.46831, 0.79859, 1.21113, 284.433]
 
 # Code
-api = API()
+api = API(True)
 # api.load_parents("results/rve500.tess")
 api.define_domain(1000, 3)
 api.add_parents(EQ_RADIUS, SPHERICITY)

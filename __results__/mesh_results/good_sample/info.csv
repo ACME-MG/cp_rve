@@ -1,0 +1,4 @@
+elements,28728
+scale,10
+thickness,3 elems
+command,volume all scale x 10

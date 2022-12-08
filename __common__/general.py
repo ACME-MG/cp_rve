@@ -8,6 +8,7 @@
 # Libraries
 import subprocess, os, csv, inspect
 import numpy as np
+import pandas as pd
 import printer as printer
 
 # For safely making a directory
@@ -15,6 +16,11 @@ def safe_mkdir(dir_path):
     if not os.path.exists(dir_path):
         os.mkdir(dir_path)
 
+# For quickly writing to a file
+def quick_write(file_name, content):
+    with open(file_name, "w+") as file:
+        file.write(content)
+        
 # Converts a list of dictionaries to a CSV format
 def dict_list_to_csv(dictionary_list):
     headers = list(dictionary_list[0].keys())
@@ -58,6 +64,18 @@ def conjunct(str_list, conjunction):
     conjuncted += ", {} {}".format(conjunction, str_list[-1])
     return conjuncted
 
+# Silently raises an exception
+def silent_raise(exception, caller = ""):
+    caller = inspect.stack()[1][3] if caller == "" else caller
+    print("\n  Error in '{}':\n".format(caller))
+    print("  {}\n".format(exception))
+    exit()
+
 # Checks whether a variable is a number
 def is_number(variable):
     return isinstance(variable, float) or isinstance(variable, int)
+
+# Transposes a 2D list of lists
+def transpose(list_of_lists):
+    transposed = pd.DataFrame(list_of_lists).T.values.tolist()
+    return transposed
