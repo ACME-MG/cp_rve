@@ -83,7 +83,7 @@ class API:
         x_max = round(x_max / self.step_size)
         y_min = round(y_min / self.step_size)
         y_max = round(y_max / self.step_size)
-        new_pixel_grid = pixel_maths.get_dead_pixel_grid(x_max - x_min, y_max - y_min)
+        new_pixel_grid = pixel_maths.get_void_pixel_grid(x_max - x_min, y_max - y_min)
         for row in range(y_min, y_max):
             for col in range(x_min, x_max):
                 try:
@@ -98,7 +98,7 @@ class API:
         self.step_size *= factor
         new_x_size = math.ceil(len(self.pixel_grid[0]) / factor)
         new_y_size = math.ceil(len(self.pixel_grid) / factor)
-        new_pixel_grid = pixel_maths.get_dead_pixel_grid(new_x_size, new_y_size)
+        new_pixel_grid = pixel_maths.get_void_pixel_grid(new_x_size, new_y_size)
         for row in range(new_y_size):
             for col in range(new_x_size):
                 new_pixel_grid[row][col] = self.pixel_grid[row * factor][col * factor]
@@ -110,7 +110,7 @@ class API:
         self.step_size /= factor
         new_x_size = len(self.pixel_grid[0]) * factor
         new_y_size = len(self.pixel_grid) * factor
-        new_pixel_grid = pixel_maths.get_dead_pixel_grid(new_x_size, new_y_size)
+        new_pixel_grid = pixel_maths.get_void_pixel_grid(new_x_size, new_y_size)
         for row in range(new_y_size):
             for col in range(new_x_size):
                 new_pixel_grid[row][col] = self.pixel_grid[math.floor(row / factor)][math.floor(col / factor)]
@@ -138,7 +138,7 @@ class API:
     # Creates a custom cut by reading from a file (and looking for black pixels)
     def cut_mask(self, png_file):
         self.prog.add("Performing cut using a mask")
-        coordinates_list = imager.get_dead_pixels(f"{INPUT_DIR}/{png_file}")
+        coordinates_list = imager.get_void_pixels(f"{INPUT_DIR}/{png_file}")
         self.pixel_grid = pixel_maths.remove_pixels(self.pixel_grid, coordinates_list)
 
     # Creates an image of the sample

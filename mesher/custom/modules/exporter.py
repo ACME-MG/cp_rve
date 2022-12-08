@@ -7,7 +7,7 @@
 
 # Libraries
 import csv
-from modules.maths.pixel_maths import DEAD_PIXEL_ID
+from modules.maths.pixel_maths import VOID_PIXEL_ID
 
 # Exports grain statistics
 def export_statistics(pixel_grid, grain_map, statistic_list, path, include_header):
@@ -15,7 +15,7 @@ def export_statistics(pixel_grid, grain_map, statistic_list, path, include_heade
     # Get existing IDs
     id_list = [pixel for pixel_list in pixel_grid for pixel in pixel_list]
     id_list = list(dict.fromkeys(id_list))
-    id_list.remove(DEAD_PIXEL_ID)
+    id_list.remove(VOID_PIXEL_ID)
 
     # Redefine statistic list
     available_statistics = ["grain_id", "phase_id", "q1", "q2", "q3", "q4", "num_pixels"]

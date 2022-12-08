@@ -41,7 +41,7 @@ def read_pixels(path, step_size):
     y_cells, y_min = get_info([float(row.split(",")[y_index]) for row in rows])
 
     # Initialise pixel grid and grain map
-    pixel_grid = pixel_maths.get_dead_pixel_grid(x_cells, y_cells)
+    pixel_grid = pixel_maths.get_void_pixel_grid(x_cells, y_cells)
     grain_map = {}
 
     # Read CSV and fill grid
@@ -53,7 +53,7 @@ def read_pixels(path, step_size):
         row_list = prev_row if "NaN" in row_list else row_list # if NaN, use previous pixel data
         row_list = [float(val) for val in row_list]
         prev_row = row_list
-        grain_id = round(row_list[graid_id_index]) + 1 # 1 dedicated to dead pixels
+        grain_id = round(row_list[graid_id_index]) + 1 # 1 dedicated to void pixels
 
         # Add to pixel grid
         x = round(float(row_list[x_index] - x_min) / step_size)

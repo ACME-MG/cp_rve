@@ -9,28 +9,24 @@
 import numpy as np
 
 # Constants
-DEAD_PIXEL_ID = 1
+VOID_PIXEL_ID = 1
 
-# Returns a dead pixel (to be removed)
-def get_dead_pixel():
-    return DEAD_PIXEL_ID
-
-# Returns a grid of dead pixels
-def get_dead_pixel_grid(x_cells, y_cells):
+# Returns a grid of void pixels
+def get_void_pixel_grid(x_cells, y_cells):
     pixel_grid = []
     for _ in range(y_cells):
         pixel_list = []
         for _ in range(x_cells):
-            dead_pixel = get_dead_pixel()
-            pixel_list.append(dead_pixel)
+            void_pixel = VOID_PIXEL_ID
+            pixel_list.append(void_pixel)
         pixel_grid.append(pixel_list)
     return pixel_grid
 
-# Replaces a grid of pixels with dead pixels based on coordinates
+# Replaces a grid of pixels with void pixels based on coordinates
 def remove_pixels(pixel_grid, coordinates_list):
     for coordinates in coordinates_list:
         try:
-            pixel_grid[coordinates[1]][coordinates[0]] = get_dead_pixel()
+            pixel_grid[coordinates[1]][coordinates[0]] = VOID_PIXEL_ID
         except IndexError:
             pass
     return pixel_grid

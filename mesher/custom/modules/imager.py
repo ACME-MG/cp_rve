@@ -8,7 +8,7 @@
 # Libraries
 import numpy as np
 from PIL import Image
-from modules.maths.pixel_maths import DEAD_PIXEL_ID
+from modules.maths.pixel_maths import VOID_PIXEL_ID
 
 # Colours
 MASK_COLOUR = (0,0,0) # black
@@ -35,7 +35,7 @@ def generate_image(pixel_grid, path):
     # Allocate colours to unique ids
     id_colour_map = {}
     for id in id_list:
-        if id == DEAD_PIXEL_ID:
+        if id == VOID_PIXEL_ID:
             id_colour_map[str(id)] = TRANSPARENT
         else:
             id_colour_map[str(id)] = get_random_colour()
@@ -48,14 +48,14 @@ def generate_image(pixel_grid, path):
     img.save(f"{path}.png", "PNG")
 
 # Gets a list of coordinates of void pixels
-def get_dead_pixels(path):
+def get_void_pixels(path):
     
     # Read image and convert to pixel grid
     img = Image.open(path)
     img = img.convert("RGBA")
     pixel_grid = np.asarray(img)
 
-    # Return coordinates of dead pixels
+    # Return coordinates of void pixels
     coordinates_list = []
     for row in range(len(pixel_grid)):
         for col in range(len(pixel_grid[0])):

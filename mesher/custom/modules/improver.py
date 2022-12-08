@@ -9,7 +9,7 @@
 import modules.maths.pixel_maths as pixel_maths
 from random import randint
 
-# Cleans the pixel grid by replacing stray dead / live pixels
+# Cleans the pixel grid by replacing stray void / live pixels
 def clean_pixel_grid(pixel_grid):
 
     # Dimensions of the pixel grid
@@ -22,17 +22,17 @@ def clean_pixel_grid(pixel_grid):
 
             # Evaluate neighbouring pixels
             neighbours = pixel_maths.get_neighbours(col, row, x_size, y_size)
-            dead_neighbours = [n for n in neighbours if pixel_grid[n[1]][n[0]] == pixel_maths.DEAD_PIXEL_ID]
-            num_dead = len(dead_neighbours)
+            void_neighbours = [n for n in neighbours if pixel_grid[n[1]][n[0]] == pixel_maths.VOID_PIXEL_ID]
+            num_void = len(void_neighbours)
             
-            # If half (or less) of the neighbours are dead, then revive a dead pixel
-            if pixel_grid[row][col] == pixel_maths.DEAD_PIXEL_ID and num_dead <= len(neighbours) / 2:
+            # If half (or less) of the neighbours are void, then fill a void pixel
+            if pixel_grid[row][col] == pixel_maths.VOID_PIXEL_ID and num_void <= len(neighbours) / 2:
                 copy = neighbours[randint(0, len(neighbours) - 1)]
                 pixel_grid[row][col] = pixel_grid[copy[1]][copy[0]]
 
-            # If more than half of the neighbours are dead, then kill a live pixel
-            if pixel_grid[row][col] != pixel_maths.DEAD_PIXEL_ID and num_dead > len(neighbours) / 2:
-                pixel_grid[row][col] = pixel_maths.DEAD_PIXEL_ID
+            # If more than half of the neighbours are void, then remove a live pixel
+            if pixel_grid[row][col] != pixel_maths.VOID_PIXEL_ID and num_void > len(neighbours) / 2:
+                pixel_grid[row][col] = pixel_maths.VOID_PIXEL_ID
 
     # Return cleaned pixel grid
     return pixel_grid
@@ -68,22 +68,22 @@ def pad_edges(pixel_grid):
     y_size = len(pixel_grid)
     
     # Replicate it
-    padded_pixel_grid = pixel_maths.get_dead_pixel_grid(x_size, y_size)
+    padded_pixel_grid = pixel_maths.get_void_pixel_grid(x_size, y_size)
 
     # Iterate through each pixel
     for row in range(y_size):
         for col in range(x_size):
 
             # If live, copy and skip
-            if pixel_grid[row][col] != pixel_maths.DEAD_PIXEL_ID:
+            if pixel_grid[row][col] != pixel_maths.VOID_PIXEL_ID:
                 padded_pixel_grid[row][col] = pixel_grid[row][col]
                 continue
 
             # Get live neighbouring pixels
             neighbours = pixel_maths.get_neighbours(col, row, x_size, y_size)
-            live_neighbours = [n for n in neighbours if pixel_grid[n[1]][n[0]] != pixel_maths.DEAD_PIXEL_ID]
+            live_neighbours = [n for n in neighbours if pixel_grid[n[1]][n[0]] != pixel_maths.VOID_PIXEL_ID]
 
-            # If there is a live neighbour, then revive this dead pixel
+            # If there is a live neighbour, then fill this void pixel
             if len(live_neighbours) > 0:
                 copy = live_neighbours[randint(0, len(live_neighbours) - 1)]
                 padded_pixel_grid[row][col] = pixel_grid[copy[1]][copy[0]]
