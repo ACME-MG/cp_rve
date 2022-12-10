@@ -15,6 +15,11 @@ MIN_PADDING     = 5
 INIT_LENGTH     = 30
 END_PAD_CHAR    = "."
 
+# Statuses
+COMPLETE    = "Complete"
+ONGOING     = "Ongoing"
+FAILED      = "Failed"
+
 # For visualising the progress of a process
 class Progressor:
 
@@ -55,9 +60,9 @@ class Progressor:
         for i in range(len(self.message_list)):
 
             # Extract message and duration
-            message = self.message_list[i]["message"]
-            duration = self.message_list[i]["duration"]
-            complete = self.message_list[i]["complete"]
+            message     = self.message_list[i]["message"]
+            duration    = self.message_list[i]["duration"]
+            status      = self.message_list[i]["status"]
 
             # Print index and message
             padding_start = (2 + max_index_length - len(str(i+1))) * " "
@@ -66,12 +71,15 @@ class Progressor:
             self.__print__(f"{message} {padding_end} ", [], False)
             
             # Print progress status
-            if complete:
+            if status == COMPLETE:
                 self.__print__("[Complete] ", ["l_green"], False)
                 self.__print__(f"({duration}s)")
-            else:
-                self.__print__("[Ongoing]", ["l_red"])
+            elif status == ONGOING:
+                self.__print__("[Ongoing]", ["yellow"])
                 self.__print__("")
+            elif status == FAILED:
+                self.__print__("[Failed]", ["l_red"], False)
+                self.__print__(f"({duration}s)")
     
     # When closing, display end message
     def __finish__(self):
@@ -83,9 +91,12 @@ class Progressor:
         except AttributeError:
             pass
 
-        # Display progress
+        # Update progress
         self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
-        self.message_list[-1]["complete"] = True
+        if self.message_list[-1]["status"] == ONGOING:
+                self.message_list[-1]["status"] = COMPLETE
+
+        # Display progress
         if not self.verbose:
             os.system('cls' if os.name == 'nt' else 'clear')
         self.__display__()
@@ -101,17 +112,24 @@ class Progressor:
         # Update duration if not first
         if len(self.message_list) > 0:
             self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
-            self.message_list[-1]["complete"] = True
+            if self.message_list[-1]["status"] == ONGOING:
+                self.message_list[-1]["status"] = COMPLETE
         self.curr_time = time.time()
 
         # Add message
         self.message_list.append({
             "message": message,
             "duration": 0,
-            "complete": False,
+            "status": ONGOING,
         })
 
         # Clear and display
         if not self.verbose:
             os.system('cls' if os.name == 'nt' else 'clear')
         self.__display__()
+    
+    # Fails the current process but move on
+    def fail(self):
+        if len(self.message_list) > 0:
+            self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
+            self.message_list[-1]["status"] = FAILED

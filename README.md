@@ -1,4 +1,4 @@
-# Crystal Plasticity
+# Crystal Plasticity Finite Element Modelling
 
 The purpose of the following repository is to facillitate the development of crystal plasticity finite element models. These models are developed for the prediction of complex material behaviours, such as crack propagation, creep, fatigue, tensile, etc.
 
