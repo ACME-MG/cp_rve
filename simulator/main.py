@@ -12,7 +12,7 @@ from modules.api import API
 DEER_PATH           = "~/moose/deer/deer-opt"
 NUM_PROCESSORS      = 128
 MESH_FILE           = "mesh.e"
-ORIENTATION_FILE    = "orientation.csv"
+ORIENTATION_FILE    = "orientations.csv"
 VERBOSE_DISPLAY     = True
 
 # Code

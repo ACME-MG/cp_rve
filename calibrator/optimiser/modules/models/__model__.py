@@ -11,6 +11,7 @@ import modules.data.curve as curve
 
 # Constants
 NEML_SYSTEM_PATH = "/home/janzen/moose/neml"
+# NEML_SYSTEM_PATH = "/home/choij/neml"
 
 # The Model Class
 class Model:

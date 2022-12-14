@@ -43,3 +43,7 @@ class Plotter:
         path = self.path if path == '' else path
         plot = self.plot if plot == '' else plot
         plt.savefig(path + "/" + plot)
+    
+    # CLears the plot
+    def clear(self):
+        plt.clf()

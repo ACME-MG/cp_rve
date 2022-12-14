@@ -7,7 +7,9 @@
 
 # Libraries
 from pymoo.algorithms.moo.nsga2 import NSGA2
-from pymoo.factory import get_sampling, get_crossover, get_mutation, get_termination
+from pymoo.operators.sampling.lhs import LHS
+from pymoo.operators.crossover.sbx import SBX
+from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.optimize import minimize
 
 # The Multi-Objective Genetic Algorithm (MOGA) class
@@ -25,17 +27,16 @@ class MOGA:
         self.mutation   = mutation
 
         # Define algorithm
-        self.term = get_termination("n_gen", num_gens)
         self.algo = NSGA2(
             pop_size     = init_pop,
             n_offsprings = offspring,
-            sampling     = get_sampling("real_lhs"), # latin hypercube sampling
-            crossover    = get_crossover("real_sbx", prob = crossover, eta=10), # simulated binary
-            mutation     = get_mutation("real_pm", prob = mutation, eta=15), # polynomial mutation
+            sampling     = LHS(),                               # latin hypercube sampling
+            crossover    = SBX(prob=crossover, prob_var=1.0),   # simulated binary crossover 
+            mutation     = PolynomialMutation(prob=mutation),   # polynomial mutation
             eliminate_duplicates = True
         )
 
     # Runs the genetic optimisation
     def optimise(self):
-        params_list = minimize(self.problem, self.algo, self.term, verbose=False, seed=None).X
+        params_list = minimize(self.problem, self.algo, ("n_gen", self.num_gens), verbose=False, seed=None).X
         return params_list

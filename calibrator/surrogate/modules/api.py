@@ -7,6 +7,7 @@
 
 # Libraries
 import time, random
+import numpy as np
 from modules.models.__model_factory__ import get_model
 from modules.sampler import Sampler
 from modules.surrogate import Surrogate
@@ -31,6 +32,7 @@ class API:
         # Initialise
         self.prog = Progressor(fancy, title, verbose)
         self.poly = Polyfier()
+        self.plot_count = 1
 
         # Set up environment
         title = "" if title == "" else f" ({title})"
@@ -47,10 +49,14 @@ class API:
         self.u_bounds = self.model.get_param_upper_bounds()
 
     # Samples the parameter space using the CCD strategy
-    def sample_CCD(self):
+    def sample_CCD(self, axial=0.5):
         self.prog.add(f"Sampling the parameter space with CCD")
         smp = Sampler(self.l_bounds, self.u_bounds)
-        self.param_list = smp.sample_CCD()
+        self.param_list = smp.sample_CCD(axial)
+
+    # Samples the parameter space randomly
+    def sample_random(self, size=10):
+        self.param_list = [[random.uniform(self.l_bounds[i], self.u_bounds[i]) for i in range(len(self.l_bounds))] for _ in range(size)]
 
     # Commence training the surrogate model
     def train(self):
@@ -62,11 +68,16 @@ class API:
 
         # Gather curves
         for i in range(len(self.param_list)):
-            print(f"    Training ({i+1}/{len(self.param_list)})")
             curve = self.model.get_curve(*self.param_list[i])
+
+            # Check curve
+            if curve["x"] == [] or curve["y"] == [] or np.nan in curve["y"]:
+                print(f"  FAILED ({i+1}) :: {self.param_list[i]}")
+            
+            # Compress curve and append
             curve = self.poly.compress_curve(curve)
             curve_list.append(curve["y"])
-        
+
         # Start training
         self.sm.train_sm(self.param_list, curve_list)
 
@@ -75,9 +86,7 @@ class API:
         self.prog.add(f"Assessing the surrogate model {trials} times")
 
         # Uniformly generate a bunch of random parameters
-        actual_list, predicted_list = [], []
         for i in range(trials):
-            print(f"    Testing ({i+1}/{trials})")
 
             # Get random parameters and actual curve
             random_params = [random.uniform(self.l_bounds[i], self.u_bounds[i]) for i in range(len(self.l_bounds))]
@@ -89,16 +98,15 @@ class API:
                 "x": self.poly.get_x_list(),
                 "y": self.sm.predict([random_params])
             }
-
-            # Append to list of curves
-            actual_list.append(actual)
-            predicted_list.append(predicted)
         
-        # Plot results
-        plt = Plotter(self.output_path, "plot")
-        plt.prd_plot(actual_list)
-        plt.exp_plot(predicted_list)
-        plt.save_plot()
+            # Plot results
+            plt = Plotter(self.output_path, f"plot_{self.plot_count}")
+            self.plot_count += 1
+            plt.prd_plot([actual])
+            plt.exp_plot([predicted])
+            plt.save_plot()
+            plt.clear()
+            print(f"    Tested ({i+1}/{trials})")
     
     # Saves the trained model (via pickling)
     def save_sm(self, model_path):

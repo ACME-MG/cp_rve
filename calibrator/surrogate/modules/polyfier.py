@@ -7,11 +7,13 @@
 
 # Libraries
 import numpy as np
+import warnings
 
 # Constants
-POLYNOMIAL_DEGREE   = 15
+POLY_ODD_DEGREE     = 15
+POLY_EVEN_DEGREE    = 16
 INVALID_VALUE       = 0
-DEFAULT_STEP_SIZE   = 100
+DEFAULT_STEP_SIZE   = 10
 DEFAULT_MAX_X_VALUE = 10000
 
 # Polyfier class
@@ -25,7 +27,11 @@ class Polyfier:
     # Converts a curve into a polynomial
     def curve_to_poly(self, curve):
         x_end = curve["x"][-1]
-        polynomial = np.polyfit(curve["x"], curve["y"], POLYNOMIAL_DEGREE)
+        with warnings.catch_warnings(record=True) as w:
+            try:
+                polynomial = np.polyfit(curve["x"], curve["y"], POLY_ODD_DEGREE)
+            except RuntimeWarning:
+                polynomial = np.polyfit(curve["x"], curve["y"], POLY_EVEN_DEGREE)
         return { "x_end": x_end, "poly": polynomial }
 
     # Returns an x_list
@@ -46,7 +52,7 @@ class Polyfier:
     def compress_curve(self, curve):
 
         # If the curve is empty, then give zeros
-        if curve["x"] == [] or curve["y"] == []:
+        if curve["x"] == [] or curve["y"] == [] or np.nan in curve["y"]:
             x_list = self.get_x_list()
             return {
                 "x": x_list,
