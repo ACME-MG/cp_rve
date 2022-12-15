@@ -433,29 +433,29 @@ SIMULATION_FORMAT = """
 
 [Executioner]
 
-  # Multi-physics and time-dependent (transient) problem
-  # automatic_scaling = true
+  # Time-dependent (transient) and multi-physics problem
   type = Transient
+  automatic_scaling = false
 
   # Options for PETSc (solving linear equations)
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
-  petsc_options_iname = '-pc_type -pc_hypre_type'
-  petsc_options_value = 'hypre boomeramg'
-  line_search = 'none'
+  petsc_options_iname = '-pc_type -pc_factor_mat_solver_package -ksp_gmres_restart -pc_hypre_boomeramg_strong_threshold -pc_hypre_boomeramg_interp_type -pc_hypre_boomeramg_coarsen_type -pc_hypre_boomeramg_agg_nl -pc_hypre_boomeramg_agg_num_paths -pc_hypre_boomeramg_truncfactor'
+  petsc_options_value = 'hypre boomeramg 200 0.7 ext+i PMIS 4 2 0.4'
+  line_search = 'bt'
 
   # Newton-Raphson solver
   solve_type = NEWTON
 
+  # Tolerances on linear solve
+  l_max_its = 256
+  l_tol = 1e-6
+
   # Tolerances on non-linear solve
+  nl_max_its = 15
   nl_rel_tol = 1e-6
   nl_abs_tol = 1e-6
-  nl_max_its = 16
-  nl_forced_its = 2
+  nl_forced_its = 1
   n_max_nonlinear_pingpong = 1
-
-  # Tolerances on linear solve
-  l_tol = 1e-15
-  l_max_its = 128
 
   # Time variables
   start_time = {start_time}
