@@ -6,7 +6,7 @@
 """
 
 # Libraries
-import csv, math
+import math
 import pyvista as pv
 import numpy as np
 from modules.maths.pixel_maths import VOID_PIXEL_ID

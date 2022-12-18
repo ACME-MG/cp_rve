@@ -9,6 +9,29 @@
 import pyvista as pv
 import numpy as np
 
+# Renumbers the SPN file
+def renumber_grain_ids(spn_path):
+    
+    # Read the SPN file
+    with open(spn_path, "r") as spn_file:
+        voxel_string = " ".join(spn_file.readlines())
+        voxel_list = [int(voxel) for voxel in voxel_string.split(" ") if voxel != ""]
+
+    # Get unique and sorted ids
+    id_list = list(set(voxel_list))
+    id_list.sort()
+
+    # Map new ids to old voxel list
+    id_map = {}
+    for i in range(len(id_list)):
+        id_map[id_list[i]] = i+1
+    new_voxel_list = [str(id_map[voxel]) for voxel in voxel_list]
+    new_voxel_string = " ".join(new_voxel_list) + "\n"
+
+    # Write new SPN file
+    with open(spn_path, "w+") as spn_file:
+        spn_file.write(new_voxel_string)
+
 # Exports the orientations based on the centroid of voxel clusters (i.e., grains)
 def export_orientations(stats_path, exodus_path, export_path, tess_length):
     

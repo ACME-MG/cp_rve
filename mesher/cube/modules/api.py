@@ -64,6 +64,7 @@ class API:
     # Conducts the mesh
     def mesh(self, psculpt_path, num_processors):
         self.prog.add("Generating adaptive mesh from spn file")
+        orientation.renumber_grain_ids(self.spn_path)
         mesher.spn_mesh(self.spn_path, self.exodus_path, self.input_path, psculpt_path, num_processors, self.num_voxels)
 
     # Gets the new orientations
