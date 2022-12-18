@@ -8,7 +8,7 @@
 # Libraries
 import time, subprocess
 import modules.converter as converter
-import modules.coarse_mesher as mesher
+import modules.mesher as mesher
 import modules.orientation as orientation
 
 # Helper libraries
