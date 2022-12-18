@@ -48,6 +48,10 @@ class Progressor:
     # Displays all the messages
     def __display__(self):
         
+        # Only clear if not verbose
+        if not self.verbose:
+            os.system('cls' if os.name == 'nt' else 'clear')
+
         # Get auxiliary values
         max_length = max([len(message["message"]) for message in self.message_list])
         max_length = max(INIT_LENGTH, max_length)
@@ -72,14 +76,14 @@ class Progressor:
             
             # Print progress status
             if status == COMPLETE:
-                self.__print__("[Complete] ", ["l_green"], False)
-                self.__print__(f"({duration}s)")
+                self.__print__("[Complete]", ["l_green"], False)
+                self.__print__(f" ({duration}s)")
             elif status == ONGOING:
                 self.__print__("[Ongoing]", ["yellow"])
                 self.__print__("")
             elif status == FAILED:
                 self.__print__("[Failed]", ["l_red"], False)
-                self.__print__(f"({duration}s)")
+                self.__print__(f" ({duration}s)")
     
     # When closing, display end message
     def __finish__(self):
@@ -94,14 +98,10 @@ class Progressor:
         # Update progress
         self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
         if self.message_list[-1]["status"] == ONGOING:
-                self.message_list[-1]["status"] = COMPLETE
-
-        # Display progress
-        if not self.verbose:
-            os.system('cls' if os.name == 'nt' else 'clear')
-        self.__display__()
+            self.message_list[-1]["status"] = COMPLETE
 
         # Display final message
+        self.__display__()
         total_duration = round(time.time() - self.start_time, 2)
         final_message = f" ({self.final_message})" if self.final_message != "" else ""
         self.__print__(f"\n  Finished in {total_duration}s{final_message}!\n", ["orange"])
@@ -116,16 +116,12 @@ class Progressor:
                 self.message_list[-1]["status"] = COMPLETE
         self.curr_time = time.time()
 
-        # Add message
+        # Add message and display
         self.message_list.append({
             "message": message,
             "duration": 0,
             "status": ONGOING,
         })
-
-        # Clear and display
-        if not self.verbose:
-            os.system('cls' if os.name == 'nt' else 'clear')
         self.__display__()
     
     # Fails the current process but move on
@@ -133,3 +129,5 @@ class Progressor:
         if len(self.message_list) > 0:
             self.message_list[-1]["duration"] = round(time.time() - self.curr_time, 2)
             self.message_list[-1]["status"] = FAILED
+            self.__display__()
+            print()

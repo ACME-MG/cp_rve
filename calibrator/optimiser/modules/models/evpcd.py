@@ -34,7 +34,7 @@ class EVPCD(model.Model):
                 {"name": "evp_R",   "min": 0.0e1,   "max": 1.0e2},
                 {"name": "evp_d",   "min": 0.0e1,   "max": 1.0e2},
                 {"name": "evp_n",   "min": 0.0e1,   "max": 1.0e1},
-                {"name": "evp_eta", "min": 0.0e1,   "max": 1.0e5},
+                {"name": "evp_eta", "min": 0.0e1,   "max": 1.0e6},
                 {"name": "cd_A",    "min": 0.0e1,   "max": 1.0e4},
                 {"name": "cd_xi",   "min": 0.0e1,   "max": 1.0e2},
                 {"name": "cd_phi",  "min": 0.0e1,   "max": 1.0e2},

@@ -205,12 +205,12 @@ class Tessellator:
             return ["id"], [range(1,len(stat[0]) + 1)]
 
         # For orientation
-        if stat_name == "orientation":
+        if stat_name == "euler-bunge":
             orientations = self.__extract_orientations__()
             return ["phi_1", "Phi", "phi_2"], orientations
         
         # For Neper supported stats
         mapped_name = stat_name
-        if mapped_name in ["area", "vol", "diameq", "radeq", "sphericity", "convexity", "npolynb_samedomain"]:
+        if mapped_name in ["x", "y", "z", "area", "vol", "diameq", "radeq", "sphericity", "convexity", "npolynb_samedomain"]:
             stat = self.__extract_stats__([mapped_name])
             return [mapped_name], stat

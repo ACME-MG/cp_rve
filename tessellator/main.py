@@ -14,14 +14,11 @@ SPHERICITY  = [-1.6229, 0.40402, 0.02316, 0.57725]
 TWIN_WIDTH  = [1.46831, 0.79859, 1.21113, 284.433]
 
 # Code
-api = API(True)
-# api.load_parents("results/rve500.tess")
-api.define_domain(1000, 3)
-api.add_parents(EQ_RADIUS, SPHERICITY)
+api = API()
+api.load_parents("results/rve_500.tess")
+# api.define_domain(1000, 3)
+# api.add_parents(EQ_RADIUS, SPHERICITY)
 api.visualise()
-# api.add_twins(TWIN_WIDTH)
 api.orient_random()
-api.get_stats(["orientation"], False)
-api.export_file("stl:bycell")
-# api.orient_csl("3")
+api.get_stats(["x", "y", "z", "vol", "euler-bunge"], False)
 api.commence(False)

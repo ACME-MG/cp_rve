@@ -1,14 +1,12 @@
-mesher/cube-stl/results
-mesher/cube-tess/results
-mesher/custom-csv/results
+mesher/cube/results
+mesher/sample/results
 calibrator/optimiser/results
 calibrator/surrogate/results
 simulator/results
 tessellator/results
 
-mesher/cube-stl/nohup.out
-mesher/cube-tess/nohup.out
-mesher/custom-csv/nohup.out
+mesher/cube/nohup.out
+mesher/sample/nohup.out
 calibrator/optimiser/nohup.out
 calibrator/surrogate/nohup.out
 simulator/nohup.out

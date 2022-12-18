@@ -1,0 +1,5 @@
+elements,28728
+resolution,0.5
+scale,10
+thickness,3 elems
+command,volume all scale x 10
