@@ -14,7 +14,7 @@ import modules.orientation as orientation
 # Helper libraries
 import sys; sys.path.append("../../__common__")
 from progressor import Progressor
-from general import safe_mkdir
+from general import safe_mkdir, write_to_csv
 
 # I/O directories
 INPUT_DIR   = "./input"
@@ -70,5 +70,7 @@ class API:
     # Gets the new orientations
     def export_orientations(self, stats_file, tess_length):
         self.prog.add("Exporting the orientations")
-        stats_path  = f"{INPUT_DIR}/{stats_file}"
-        orientation.export_orientations(stats_path, self.exodus_path, self.orientation_path, tess_length)
+        stats_path = f"{INPUT_DIR}/{stats_file}"
+        orientation.renumber_grain_ids(self.spn_path)
+        orientation_list = orientation.get_orientations(stats_path, [tess_length]*3, self.spn_path, [self.num_voxels]*3, self.exodus_path)
+        write_to_csv(self.orientation_path, orientation_list)

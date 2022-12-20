@@ -28,10 +28,9 @@ def dict_list_to_csv(dictionary_list):
     return headers, data
 
 # For writing to CSV files
-def write_to_csv(path, header, data):
+def write_to_csv(path, data):
     with open(path, "w+") as file:
         writer = csv.writer(file)
-        writer.writerow(header)
         for row in data:
             writer.writerow(row)
 
