@@ -19,7 +19,7 @@ cpfem/
 └── tessellator/
 ```
 
-The `__common__` directory (`cpfem/__common__/`) contains helper code that is used in other directories. The other directories contain programs with their own purposes. The directories contain `README.md` documents that have instructions on how to use their program. Each directory also has a `main.py` file where the functions of the program can be called and used. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
+The `__common__` directory (`cpfem/__common__/`) contains common helper code used in the programs in the repository. Each program is contained within their own directory, with an instructive `README.md` document and a `main.py` file. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
 
 ## 2. Calibrator
 
