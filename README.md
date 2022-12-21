@@ -6,6 +6,7 @@ The purpose of the following repository is to facillitate the development of cry
 
 The following diagram shows the high level structure of the repository. 
 
+```
 cpfem/
 ├── __common__/
 ├── calibrator/
@@ -16,6 +17,7 @@ cpfem/
 │   └── sample/
 ├── simulator/
 └── tessellator/
+```
 
 The directory at the end of each branch contains a program with its own purpose. Each directory contains a `README.md` that has instructions on how to use the program. Each directory also has a `main.py` file where the functions of the program can be called and used. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
 
