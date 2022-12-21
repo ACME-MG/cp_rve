@@ -69,8 +69,7 @@ class API:
 
     # Gets the new orientations
     def export_orientations(self, stats_file, tess_length):
-        self.prog.add("Exporting the orientations")
+        self.prog.add("Calculating and exporting the orientations")
         stats_path = f"{INPUT_DIR}/{stats_file}"
-        orientation.renumber_grain_ids(self.spn_path)
         orientation_list = orientation.get_orientations(stats_path, [tess_length]*3, self.spn_path, [self.num_voxels]*3, self.exodus_path)
         write_to_csv(self.orientation_path, orientation_list)

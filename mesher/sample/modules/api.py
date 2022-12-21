@@ -46,6 +46,7 @@ class API:
         self.i_path      = f"{self.output_path}/sample.i"
         self.spn_path    = f"{self.output_path}/sample.spn"
         self.exodus_path = f"{self.output_path}/sample.e"
+        self.orientation_path = f"{self.output_path}/input_orientations.csv"
 
     # Reads the sample data from the csv file
     def read_pixels(self, csv_file, step_size=1):
@@ -166,19 +167,11 @@ class API:
         mesher.coarse_mesh(psculpt_path, self.i_path, self.spn_path, self.exodus_path, self.pixel_grid, self.thickness)
 
     # Exports the grain orientations (after meshing)
-    def export_orientations(self, form="quaternion", file="input_orientations.csv"):
-        self.prog.add(f"Exporting orientations in {form} form")
-        
-        # Fix grain mapping
+    def export_orientations(self):
+        self.prog.add(f"Exporting orientations in euler-bunge form")
         spn_size = [self.thickness, len(self.pixel_grid), len(self.pixel_grid[0])]
-        self.grain_map = orientation.reorient_grains(self.exodus_path, self.spn_path, spn_size, self.grain_map)
-
-        # Export
-        orientations = orientation.get_quaternions(self.grain_map)
-        if form in ["eb", "euler", "euler-bunge"]:
-            orientations = [orientation.quat_to_euler(*q) for q in orientations]
-            orientations = orientation.rad_to_deg(orientations)
-        write_to_csv(f"{self.output_path}/{file}", orientations)
+        orientations = orientation.get_orientations(self.exodus_path, self.spn_path, spn_size, self.grain_map)
+        write_to_csv(self.orientation_path, orientations)
 
     # Exports spn dimensions
     def export_dimensions(self, file="dim.txt"):

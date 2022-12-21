@@ -32,10 +32,9 @@ def read_pixels(path, step_size):
     y_index = header.index("y")
     phase_id_index = header.index("phaseId")
     graid_id_index = header.index("grainId")
-    quat_1_index = header.index("orientations_a")
-    quat_2_index = header.index("orientations_b")
-    quat_3_index = header.index("orientations_c")
-    quat_4_index = header.index("orientations_d")
+    phi_1_index = header.index("euler_phi1")
+    Phi_index   = header.index("euler_Phi")
+    phi_2_index = header.index("euler_phi2")
 
     # Get dimensions
     x_cells, x_min = get_info([float(row.split(",")[x_index]) for row in rows], step_size)
@@ -63,12 +62,11 @@ def read_pixels(path, step_size):
         # Add to grain map if not yet added
         if not grain_id in grain_map:
             grain_dict = grain_maths.get_grain_dict(
-                phase_id = row_list[phase_id_index],
-                q1 = row_list[quat_1_index],
-                q2 = row_list[quat_2_index],
-                q3 = row_list[quat_3_index],
-                q4 = row_list[quat_4_index],
-                num_pixels = 1,
+                phase_id    = row_list[phase_id_index],
+                phi_1       = row_list[phi_1_index],
+                Phi         = row_list[Phi_index],
+                phi_2       = row_list[phi_2_index],
+                size        = 1,
             )
             grain_map[grain_id] = grain_dict
         
@@ -76,11 +74,10 @@ def read_pixels(path, step_size):
         else:
             old_grain_dict = grain_map[grain_id]
             new_grain_dict = grain_maths.update_grain_dict(
-                grain_dict = old_grain_dict,
-                q1 = row_list[quat_1_index],
-                q2 = row_list[quat_2_index],
-                q3 = row_list[quat_3_index],
-                q4 = row_list[quat_4_index],
+                grain_dict  = old_grain_dict,
+                phi_1       = row_list[phi_1_index],
+                Phi         = row_list[Phi_index],
+                phi_2       = row_list[phi_2_index],
             )
             grain_map[grain_id] = new_grain_dict
     
@@ -96,6 +93,7 @@ def renumber_grains(pixel_grid, grain_map):
     old_ids = list(set(flattened))
     if pixel_maths.VOID_PIXEL_ID in old_ids:
         old_ids.remove(pixel_maths.VOID_PIXEL_ID)
+    old_ids.sort()
 
     # Map old IDs to new IDs
     id_map = {}

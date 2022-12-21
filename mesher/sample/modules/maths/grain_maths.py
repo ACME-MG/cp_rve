@@ -6,22 +6,20 @@
 """
 
 # Returns a grain dictionary
-def get_grain_dict(phase_id, q1, q2, q3, q4, num_pixels):
+def get_grain_dict(phase_id, phi_1, Phi, phi_2, size):
     return {
         "phase_id": phase_id,
-        "q1":       q1,
-        "q2":       q2,
-        "q3":       q3,
-        "q4":       q4,
-        "num_pixels": num_pixels,
+        "phi_1":    phi_1,
+        "Phi":      Phi,
+        "phi_2":    phi_2,
+        "size":     size,
     }
 
 # Updates an existing grain dictionary
-def update_grain_dict(grain_dict, q1, q2, q3, q4):
-    num_pixels = grain_dict["num_pixels"]
-    grain_dict["q1"] = (num_pixels * grain_dict["q1"] + q1) / (num_pixels + 1)
-    grain_dict["q2"] = (num_pixels * grain_dict["q2"] + q2) / (num_pixels + 1)
-    grain_dict["q3"] = (num_pixels * grain_dict["q3"] + q3) / (num_pixels + 1)
-    grain_dict["q4"] = (num_pixels * grain_dict["q4"] + q4) / (num_pixels + 1)
-    grain_dict["num_pixels"] += 1
+def update_grain_dict(grain_dict, phi_1, Phi, phi_2):
+    size = grain_dict["size"]
+    grain_dict["phi_1"] = (size * grain_dict["phi_1"] + phi_1) / (size + 1)
+    grain_dict["Phi"]   = (size * grain_dict["Phi"] + Phi) / (size + 1)
+    grain_dict["phi_2"] = (size * grain_dict["phi_2"] + phi_2) / (size + 1)
+    grain_dict["size"] += 1
     return grain_dict
