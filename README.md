@@ -55,6 +55,6 @@ The `sample` directory (`cpfem/mesher/sample/`) contains code for developing mic
 
 The `simulator` directory (`cpfem/simulator/`) contains code for running [MOOSE](https://github.com/idaholab/moose) simulations. The code currently only runs a model that couples the crystal plasticity constitutive equations with the ShamNeedleman grain boundary equation to predict creep deformation.
 
-## 4. Tessellator
+## 5. Tessellator
 
 The `tessellator` directory (`cpfem/tessellator/`) contains code for developing tessellations of cubic microstructures using [Neper](https://github.com/neperfepx/neper).
