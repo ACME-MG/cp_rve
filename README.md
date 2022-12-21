@@ -23,13 +23,13 @@ The directory at the end of each branch contains a program with its own purpose.
 
 ## Common
 
-The `__common__` directory (`cpfem/__common__/`) contains helper code that may be used in other directories.
+The `__common__` directory (`cpfem/__common__/`) contains helper code that is used in other directories.
 
 ## Calibrator
 
 The `calibrator` directory (`cpfem/calibrator/`) comprises two subdirectories, for optimisation and surrogate modelling.
 
-#### Optimiser
+### Optimiser
 
 The `optimiser` directory (`cpfem/calibrator/optimiser/`) contains code for optimising various creep models, with several models using [NEML](https://github.com/Argonne-National-Laboratory/neml). The following models have been developed so far.
 
@@ -39,7 +39,7 @@ The `optimiser` directory (`cpfem/calibrator/optimiser/`) contains code for opti
 * **Elastic Visco-Plastic Creep Damage**, which couples the Elastic Visco-Plastic model (primary and secondary) with the Creep Damage model (tertiary), to predict the entire creep life.
 * **Elastic Visco-Plastic Work Damage**, which couples the Elastic Visco-Plastic model (primary and secondary) with the Work Damage model (tertiary), to predict the entire creep life.
 
-#### Surrogate
+### Surrogate
 
 The `surrogate` directory (`cpfem/calibrator/surrogate/`) contains code for developing surrogate models for creep models, using [TensorFlow](https://www.tensorflow.org/).
 
@@ -47,11 +47,11 @@ The `surrogate` directory (`cpfem/calibrator/surrogate/`) contains code for deve
 
 The `mesher` directory (`cpfem/mesher/`) comprises two dubdirectories, for cube and sample meshing.
 
-#### Cube Mesher
+### Cube Mesher
 
 The `cube` directory (`cpfem/mesher/cube/`) contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
 
-#### Sample Mesher
+### Sample Mesher
 
 The `sample` directory (`cpfem/mesher/sample/`) contains code for developing microstructural meshes with custom geometry using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
 
