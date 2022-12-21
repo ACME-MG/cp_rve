@@ -37,6 +37,10 @@ The `optimiser` program is used to optimise various creep models, with several m
 * **Elastic Visco-Plastic Creep Damage**, which couples the Elastic Visco-Plastic model (primary and secondary) with the Creep Damage model (tertiary), to predict the entire creep life.
 * **Elastic Visco-Plastic Work Damage**, which couples the Elastic Visco-Plastic model (primary and secondary) with the Work Damage model (tertiary), to predict the entire creep life.
 
+#### Surrogate (`cpfem/calibrator/surrogate/`)
+
+The `surrogate` program is used for developing surrogate models for creep models, using [TensorFlow](https://www.tensorflow.org/).
+
 ## Mesher (`cpfem/mesher/`)
 
 The `mesher` directory comprises two dubdirectories, for cube and sample meshing.
