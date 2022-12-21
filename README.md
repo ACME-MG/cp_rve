@@ -2,7 +2,7 @@
 
 The purpose of the following repository is to facillitate the development of crystal plasticity finite element models. These models are developed for the prediction of complex material behaviours, such as crack propagation, creep, fatigue, tensile, etc.
 
-## Repository Structure
+# Repository Structure
 
 The following diagram shows the high level structure of the repository. 
 
@@ -21,11 +21,11 @@ cpfem/
 
 The directory at the end of each branch contains a program with its own purpose. Each directory contains a `README.md` that has instructions on how to use the program. Each directory also has a `main.py` file where the functions of the program can be called and used. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
 
-## Common
+# Common
 
 The `__common__` directory (`cpfem/__common__/`) contains helper code that is used in other directories.
 
-## Calibrator
+# Calibrator
 
 The `calibrator` directory (`cpfem/calibrator/`) comprises two subdirectories, for optimisation and surrogate modelling.
 
@@ -43,7 +43,7 @@ The `optimiser` directory (`cpfem/calibrator/optimiser/`) contains code for opti
 
 The `surrogate` directory (`cpfem/calibrator/surrogate/`) contains code for developing surrogate models for creep models, using [TensorFlow](https://www.tensorflow.org/).
 
-## Mesher
+# Mesher
 
 The `mesher` directory (`cpfem/mesher/`) comprises two dubdirectories, for cube and sample meshing.
 
@@ -55,10 +55,10 @@ The `cube` directory (`cpfem/mesher/cube/`) contains code for creating adaptive 
 
 The `sample` directory (`cpfem/mesher/sample/`) contains code for developing microstructural meshes with custom geometry using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
 
-## Simulator
+# Simulator
 
 The `simulator` directory (`cpfem/simulator/`) contains code for running [MOOSE](https://github.com/idaholab/moose) simulations. The code currently only runs a model that couples the crystal plasticity constitutive equations with the ShamNeedleman grain boundary equation to predict creep deformation.
 
-## Tessellator
+# Tessellator
 
 The `tessellator` directory (`cpfem/tessellator/`) contains code for developing tessellations of cubic microstructures using [Neper](https://github.com/neperfepx/neper).
