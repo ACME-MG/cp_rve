@@ -2,7 +2,6 @@
  Title:         Time-Hardening Kachanov-Rabotnov model coupled with Kachanov-Rabotnov model (separately optimised)
  Description:   Predicts all three stages of creep
  Author:        Janzen Choi
-
 """
 
 # Libraries
@@ -24,11 +23,11 @@ class THKR(model.Model):
         super().__init__(
             name = "thkr",
             param_info = [
-                {"name": "kr_A",    "min": 1e-20,   "max": 1e-5},
-                {"name": "kr_n",    "min": 1e-50,   "max": 1e1},
-                {"name": "kr_M",    "min": 1e-50,   "max": 1e0},
-                {"name": "kr_phi",  "min": 1e-50,   "max": 1e2},
-                {"name": "kr_chi",  "min": 1e-50,   "max": 1e1},
+                {"name": "kr_A",    "min": 1e-18,   "max": 1e-17},
+                {"name": "kr_n",    "min": 1e0,     "max": 1e1},
+                {"name": "kr_M",    "min": 1e-13,   "max": 2e-13},
+                {"name": "kr_phi",  "min": 1e1,     "max": 2e1},
+                {"name": "kr_chi",  "min": 4e0,     "max": 5e0},
             ]
         )
 

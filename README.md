@@ -13,7 +13,7 @@ cpfem/
 │   ├── optimiser/
 │   └── surrogate/
 ├── mesher/
-│   ├── cube/
+│   ├── rve/
 │   └── sample/
 ├── simulator/
 └── tessellator/
@@ -41,11 +41,11 @@ The `surrogate` directory (`cpfem/calibrator/surrogate/`) contains code for deve
 
 ## 3. Mesher
 
-The `mesher` directory (`cpfem/mesher/`) comprises two dubdirectories, for cube and sample meshing.
+The `mesher` directory (`cpfem/mesher/`) comprises two dubdirectories, for RVE and sample meshing.
 
-### 3.1. Cube Mesher
+### 3.1. RVE Mesher
 
-The `cube` directory (`cpfem/mesher/cube/`) contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
+The `rve` directory (`cpfem/mesher/rve/`) contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
 
 ### 3.2. Sample Mesher
 

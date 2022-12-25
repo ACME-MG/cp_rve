@@ -43,9 +43,9 @@ class API:
         safe_mkdir(self.output_path)
 
         # Define paths
-        self.i_path      = f"{self.output_path}/sample.i"
-        self.spn_path    = f"{self.output_path}/sample.spn"
-        self.exodus_path = f"{self.output_path}/sample.e"
+        self.i_path      = f"{self.output_path}/input_file.i"
+        self.spn_path    = f"{self.output_path}/voxellation.spn"
+        self.exodus_path = f"{self.output_path}/mesh.e"
         self.orientation_path = f"{self.output_path}/input_orientations.csv"
 
     # Reads the sample data from the csv file
@@ -148,7 +148,7 @@ class API:
         self.pixel_grid = pixel_maths.remove_pixels(self.pixel_grid, coordinates_list)
 
     # Creates an image of the sample
-    def visualise(self, png_file="sample"):
+    def visualise(self, png_file="image"):
         self.prog.add("Visualising the sample")
         imager.generate_image(self.pixel_grid, f"{self.output_path}/{png_file}_{self.img_count}")
         self.img_count += 1

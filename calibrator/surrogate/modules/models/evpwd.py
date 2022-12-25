@@ -2,7 +2,6 @@
  Title:         The Elastic Visco Plastic Work Damage Model
  Description:   Predicts primary, secondary, and tertiary creep
  Author:        Janzen Choi
-
 """
 
 # Libraries

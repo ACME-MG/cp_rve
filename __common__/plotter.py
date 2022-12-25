@@ -29,14 +29,18 @@ class Plotter:
         plt.title(title, fontsize=20)
         
     # Plots the experimental data using a scatter plot
-    def exp_plot(self, exp_curves, colour = EXP_DATA_COLOUR):
+    def scat_plot(self, exp_curves, colour = EXP_DATA_COLOUR):
         for i in range(0, len(exp_curves)):
             plt.scatter(exp_curves[i]["x"], exp_curves[i]["y"], marker='o', color=colour, linewidth=1)
         
     # Plots the predicted data using a line plot
-    def prd_plot(self, prd_curves, colour = PRD_DATA_COLOUR):
+    def line_plot(self, prd_curves, colour = PRD_DATA_COLOUR):
         for i in range(0, len(prd_curves)):
             plt.plot(prd_curves[i]["x"], prd_curves[i]["y"], colour)
+
+    # Defines the plot legend
+    def define_legend(self, keys):
+        plt.legend(keys)
 
     # Saves the plot
     def save_plot(self, path = '', plot = ''):

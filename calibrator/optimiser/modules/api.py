@@ -6,10 +6,10 @@
 """
 
 # Libraries
-import time, os
+import time
 from modules.data.reader import get_exp_data
 from modules.errors._error_factory import get_error_list
-from modules.errors._error import get_fd
+from modules.errors._error import get_bfd
 from modules.models.__model_factory__ import get_model
 from modules.moga.objective import Objective
 from modules.moga.problem import Problem
@@ -66,7 +66,7 @@ class API:
     def remove_damage(self):
         self.prog.add("Removing creep damage")
         for i in range(len(self.test_names)):
-            exp_y_fd = get_fd(self.exp_curves[i]["x"], self.exp_curves[i]["y"])
+            exp_y_fd = get_bfd(self.exp_curves[i]["x"], self.exp_curves[i]["y"])
             min_index = exp_y_fd.index(min(exp_y_fd))
             self.exp_curves[i]["x"] = [self.exp_curves[i]["x"][j] for j in range(min_index)]
             self.exp_curves[i]["y"] = [self.exp_curves[i]["y"][j] for j in range(min_index)]
@@ -104,9 +104,9 @@ class API:
     def plot_results(self, params):
         self.prog.add("Plotting the results")
         plotter = Plotter(self.output_path)
-        plotter.exp_plot(self.exp_curves)
+        plotter.scat_plot(self.exp_curves)
         prd_curves = self.model.get_prd_curves(*params)
-        plotter.prd_plot(prd_curves)
+        plotter.line_plot(prd_curves)
         plotter.save_plot()
 
     # Returns the error values of the objective functions

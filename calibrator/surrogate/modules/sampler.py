@@ -2,7 +2,6 @@
  Title:         Sampler
  Description:   For sampling the parameter space
  Author:        Janzen Choi
-
 """
 
 # Libraries
@@ -65,4 +64,3 @@ class Sampler:
         point_list += self.sample_axial(axial)
         point_list += self.sample_centre()
         return point_list
-

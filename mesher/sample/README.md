@@ -1,4 +1,4 @@
-## Sample
+## Sample Mesher
 
 The program is used to develop microstructural meshes with custom geometry, with the feature of exporting the crystallographic orientations of the individual grains.
 

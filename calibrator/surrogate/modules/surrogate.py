@@ -1,38 +1,41 @@
 """
- Title:         Surrogate Model
- Description:   For creating the surrogate model
+ Title:         Surrogate
+ Description:   Contains the DNN for the Surrogate Model 
  Author:        Janzen Choi
- 
+
 """
 
 # Libraries
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3" # disable warnings
+import tensorflow.keras as kr
 import numpy as np
-import pickle
-from smt.surrogate_models import KPLS
 
-# Surrogate Model Wrapper Class
+# Surrogate Class
 class Surrogate:
 
     # Constructor
-    def __init__(self):
-        self.sm = KPLS(theta0=[1e-2]) # kriging model using partial least squares (PLS)
+    def __init__(self, input_size, output_size):
 
-    # Trains the surrogate model
-    def train_sm(self, input_list, output_list):
-        self.sm.set_training_values(np.array(input_list), np.array(output_list))
-        self.sm.train()
+        # Define and compile neural network
+        self.model = kr.Sequential()
+        self.model.add(kr.layers.Dense(units=200, input_dim=input_size))
+        self.model.add(kr.layers.Activation("relu"))
+        self.model.add(kr.layers.Dense(units=50))
+        self.model.add(kr.layers.Activation("relu"))
+        self.model.add(kr.layers.Dense(units=50))
+        self.model.add(kr.layers.Activation("relu"))
+        self.model.add(kr.layers.Dense(units=output_size))
+        self.model.compile(optimizer="sgd", loss="mse")
 
-    # Assesses the surrogate model
-    def predict(self, input_list):
-        prd_output_list = self.sm.predict_values(np.array(input_list))
-        return prd_output_list
+    # Fits the model
+    def fit(self, x_train, y_train, epochs=100, batch_size=32):
+        x_train = np.array(x_train)
+        y_train = np.array(y_train)
+        self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)
 
-    # Saves the trained model (via pickling)
-    def save_sm(self, model_path):
-        with open(f"{model_path}.pkl", "wb") as f:
-            pickle.dump(self.sm, f)
-
-    # Loads the trained model (via pickling)
-    def load_sm(self, model_path):
-        with open(f"{model_path}.pkl", "rb") as f:
-            self.sm = pickle.load(f)
+    # Makes a single prediction
+    def predict(self, x_test):
+        x_test = np.array([x_test])
+        y_pred = self.model.predict(x_test, batch_size=10)
+        return y_pred

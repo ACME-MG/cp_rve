@@ -35,8 +35,8 @@ def get_thin_indexes(src_data_size, dst_data_size):
     thin_indexes = [0] + thin_indexes + [src_data_size-1]
     return thin_indexes
 
-# Returns the derivative via finite difference
-def get_fd(x_list, y_list):
+# Returns the derivative via backward finite difference
+def get_bfd(x_list, y_list):
     dy_list = []
     for i in range(1,len(x_list)):
         dy = (y_list[i]-y_list[i-1])/(x_list[i]-x_list[i-1]) if (x_list[i] > x_list[i-1] and y_list[i] > y_list[i-1]) else 100

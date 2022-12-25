@@ -9,10 +9,9 @@
 import time
 
 # Constants
-BIG_FILE = "617_ebsd_big.csv"
+BIG_FILE = "ebsdExportColumnsTable.csv"
 NEW_FILE = "617_ebsd.csv"
-BIG_STEP = 0.65
-NEW_STEP = BIG_STEP * 8 # 5.2
+NEW_STEP = 6.5 # 3.25
 PROGRESS_STEPS = 10000
 EPSILON = 0.001
 
@@ -27,16 +26,17 @@ x_index = header_list.index("x")
 y_index = header_list.index("y")
 phase_id_index = header_list.index("phaseId")
 graid_id_index = header_list.index("grainId")
-quat_1_index = header_list.index("orientations_a")
-quat_2_index = header_list.index("orientations_b")
-quat_3_index = header_list.index("orientations_c")
-quat_4_index = header_list.index("orientations_d")
+phi_1_index = header_list.index("Euler_phi1")
+Phi_index = header_list.index("Euler_Phi")
+phi_2_index = header_list.index("Euler_phi2")
 
 # Transfer header
-new_file.write("x,y,phaseId,grainId,orientations_a,orientations_b,orientations_c,orientations_d\n")
+new_file.write("x,y,phaseId,grainId,Euler_phi1,Euler_Phi,Euler_phi2\n")
 
 # Initialise before transfer
 progress_count = 1
+first_iteration = True
+x_min, y_min = 0, 0
 start_time = time.time()
 
 # Transfer the contents of the files with lower resolution
@@ -49,26 +49,26 @@ for line in big_file.readlines():
         continue
 
     # Get coordinates
-    x = round(float(row_list[x_index]), 2)
-    y = round(float(row_list[y_index]), 2)
+    x = round(float(row_list[x_index]), 2) - x_min
+    y = round(float(row_list[y_index]), 2) - y_min
+    if first_iteration:
+        x_min = x
+        y_min = y
+        first_iteration = False
     
     # If coordinates do not fit new step, then continue
-    if ((x % NEW_STEP >= EPSILON
-    and abs(NEW_STEP - (x % NEW_STEP)) >= EPSILON)
-    or (y % NEW_STEP >= EPSILON
-    and abs(NEW_STEP - (y % NEW_STEP)) >= EPSILON)):
+    if round(x % NEW_STEP, 2) % NEW_STEP > 0 or round(y % NEW_STEP, 2) % NEW_STEP > 0:
         continue
     
     # Extract valid data
     phase_id    = row_list[phase_id_index]
     graid_id    = row_list[graid_id_index]
-    quat_1      = row_list[quat_1_index]
-    quat_2      = row_list[quat_2_index]
-    quat_3      = row_list[quat_3_index]
-    quat_4      = row_list[quat_4_index]
+    phi_1       = row_list[phi_1_index]
+    Phi         = row_list[Phi_index]
+    phi_2       = row_list[phi_2_index]
 
     # Add extracted data to new file
-    new_file.write(f"{x},{y},{phase_id},{graid_id},{quat_1},{quat_2},{quat_3},{quat_4}\n")
+    new_file.write(f"{x},{y},{phase_id},{graid_id},{phi_1},{Phi},{phi_2}\n")
 
     # Provide progress update every X transfered
     elapsed = round(time.time() - start_time)

@@ -11,7 +11,8 @@ import numpy as np
 from modules.models.__model_factory__ import get_model
 from modules.sampler import Sampler
 from modules.surrogate import Surrogate
-from modules.polyfier import Polyfier
+from modules.simplifier import Simplifier
+from modules.mapper import MultiMapper
 
 # Helper libraries
 import sys; sys.path.append("../../__common__")
@@ -31,7 +32,8 @@ class API:
         
         # Initialise
         self.prog = Progressor(fancy, title, verbose)
-        self.poly = Polyfier()
+        self.simplifier = Simplifier(10, 100, 9)
+        self.plotter = Plotter()
         self.plot_count = 1
 
         # Set up environment
@@ -41,78 +43,92 @@ class API:
         safe_mkdir(RESULTS_DIR)
         safe_mkdir(self.output_path)
 
-    # Defines the model
-    def define_model(self, model_name=""):
-        self.prog.add(f"Defining the {model_name} model")
+    # Defines the model, surrogate model, and mappers
+    def define_sm(self, model_name=""):
+        self.prog.add(f"Defining the surrogate model for {model_name}")
+
+        # Define model
         self.model = get_model(model_name)
         self.l_bounds = self.model.get_param_lower_bounds()
         self.u_bounds = self.model.get_param_upper_bounds()
+        
+        # Define surrogate model and mapper
+        self.surrogate = Surrogate(len(self.l_bounds), len(self.simplifier.l_bounds))
+        self.param_mapper = MultiMapper(self.l_bounds, self.u_bounds)
+        self.curve_mapper = MultiMapper(self.simplifier.l_bounds, self.simplifier.u_bounds)
 
     # Samples the parameter space using the CCD strategy
     def sample_CCD(self, axial=0.5):
         self.prog.add(f"Sampling the parameter space with CCD")
         smp = Sampler(self.l_bounds, self.u_bounds)
-        self.param_list = smp.sample_CCD(axial)
+        params_list = smp.sample_CCD(axial)
+        self.__prepare_sample__(params_list)
 
     # Samples the parameter space randomly
     def sample_random(self, size=10):
-        self.param_list = [[random.uniform(self.l_bounds[i], self.u_bounds[i]) for i in range(len(self.l_bounds))] for _ in range(size)]
+        self.prog.add(f"Sampling the parameter space randomly")
+        params_list = [[random.uniform(self.l_bounds[i], self.u_bounds[i]) for i in range(len(self.l_bounds))] for _ in range(size)]
+        self.__prepare_sample__(params_list)
 
-    # Commence training the surrogate model
-    def train(self):
-        self.prog.add("Training the surrogate model")
-        
-        # Initialise
-        self.sm = Surrogate()
-        curve_list = []
+    # Trains the surrogate model
+    def train(self, epochs=100, batch_size=32):
+        self.prog.add(f"Training the surrogate model")
+        self.surrogate.fit(self.sm_inputs, self.sm_outputs, epochs, batch_size)
+    
+    # Predicts a curve using the trained surrogate model
+    def assess(self, trials=1):
+        self.prog.add(f"Assessing the surrogate model {trials} time(s)")
 
-        # Gather curves
-        for i in range(len(self.param_list)):
-            curve = self.model.get_curve(*self.param_list[i])
-
-            # Check curve
-            if curve["x"] == [] or curve["y"] == [] or np.nan in curve["y"]:
-                print(f"  FAILED ({i+1}) :: {self.param_list[i]}")
-            
-            # Compress curve and append
-            curve = self.poly.compress_curve(curve)
-            curve_list.append(curve["y"])
-
-        # Start training
-        self.sm.train_sm(self.param_list, curve_list)
-
-    # Assess the surrogate model
-    def assess_random(self, trials=1):
-        self.prog.add(f"Assessing the surrogate model {trials} times")
-
-        # Uniformly generate a bunch of random parameters
+        # Iterate through trials
         for i in range(trials):
 
-            # Get random parameters and actual curve
+            # Uniformly generate random parameters
             random_params = [random.uniform(self.l_bounds[i], self.u_bounds[i]) for i in range(len(self.l_bounds))]
-            actual = self.model.get_curve(*random_params)
-            actual = self.poly.compress_curve(actual)
+            mapped_params = self.param_mapper.map(random_params)
 
-            # Get predicted curve
-            predicted = {
-                "x": self.poly.get_x_list(),
-                "y": self.sm.predict([random_params])
-            }
-        
-            # Plot results
+            # Gets the actual curve
+            actual_curve = self.model.get_curve(*random_params)
+            actual_curve = {"x": actual_curve["x"][-1], "y": actual_curve["y"][-1]}
+            
+            # Request the surrogate model to predict the curve
+            mapped_simplified_curve = self.surrogate.predict(mapped_params)
+            simplified_curve = self.curve_mapper.unmap(mapped_simplified_curve[0])
+            predicted_curve = self.simplifier.restore_curve(simplified_curve)
+
+            # Plot the results
             plt = Plotter(self.output_path, f"plot_{self.plot_count}")
             self.plot_count += 1
-            plt.prd_plot([actual])
-            plt.exp_plot([predicted])
+            plt.scat_plot([predicted_curve], "r")
+            plt.scat_plot([actual_curve])
+            plt.define_legend(["Predicted", "Actual"])
             plt.save_plot()
             plt.clear()
-            print(f"    Tested ({i+1}/{trials})")
-    
-    # Saves the trained model (via pickling)
-    def save_sm(self, model_path):
-        self.save_sm(model_path)
 
-    # Loads the trained model (via pickling)
-    def load_sm(self, model_path):
-        self.sm = Surrogate()
-        self.sm = self.sm.load_sm(model_path)
+            # Print out progress
+            print(f"  {i+1}\tTested - {random_params}")
+
+    # Prepare sampled parameters for the surrogate model
+    def __prepare_sample__(self, params_list):
+        
+        # Initialise
+        self.sm_inputs = []
+        self.sm_outputs = []
+
+        # Get curve for each parameter
+        for i in range(len(params_list)):
+            curve = self.model.get_curve(*params_list[i])
+
+            # Check curve and print progress
+            if curve["x"] == [] or curve["y"] == [] or np.nan in curve["y"]:
+                print(f"  {i+1})\tFAILURE - {params_list[i]}")
+                continue
+            print(f"  {i+1})\tSUCCESS - {params_list[i]}")
+
+            # Map and append parameters
+            mapped_params = self.param_mapper.map(params_list[i])
+            self.sm_inputs.append(mapped_params)
+
+            # Simplify, map, and append curve
+            simplified_curve = self.simplifier.simplify_curve(curve)
+            mapped_curve = self.curve_mapper.map(simplified_curve)
+            self.sm_outputs.append(mapped_curve)

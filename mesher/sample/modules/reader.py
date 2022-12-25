@@ -32,9 +32,9 @@ def read_pixels(path, step_size):
     y_index = header.index("y")
     phase_id_index = header.index("phaseId")
     graid_id_index = header.index("grainId")
-    phi_1_index = header.index("euler_phi1")
-    Phi_index   = header.index("euler_Phi")
-    phi_2_index = header.index("euler_phi2")
+    phi_1_index = header.index("Euler_phi1")
+    Phi_index   = header.index("Euler_Phi")
+    phi_2_index = header.index("Euler_phi2")
 
     # Get dimensions
     x_cells, x_min = get_info([float(row.split(",")[x_index]) for row in rows], step_size)

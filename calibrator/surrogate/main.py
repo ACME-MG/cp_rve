@@ -8,12 +8,10 @@
 # Libraries
 from modules.api import API
 
-# Fails causes [] hard to CCD need to use log mapping
-
 # Code
 api = API(True)
-api.define_model("evpwd_s")
-# api.sample_random(1000)
-api.sample_CCD()
+api.define_sm("thkr")
+# api.sample_CCD()
+api.sample_random(9000)
 api.train()
-api.assess_random(10)
+api.assess(10)

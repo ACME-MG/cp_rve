@@ -30,10 +30,10 @@ class EVP(model.Model):
         super().__init__(
             name = "evp",
             param_info = [
-                {"name": "evp_s0",  "min": 0.0e1,   "max": 1.0e0},
-                {"name": "evp_R",   "min": 0.0e1,   "max": 5.0e1},
-                {"name": "evp_d",   "min": 0.0e1,   "max": 5.0e1},
-                {"name": "evp_n",   "min": 0.0e1,   "max": 5.0e0},
+                {"name": "evp_s0",  "min": 1.0e-1,  "max": 1.0e0},
+                {"name": "evp_R",   "min": 2.0e1,   "max": 5.0e1},
+                {"name": "evp_d",   "min": 4.0e1,   "max": 5.0e1},
+                {"name": "evp_n",   "min": 4.0e0,   "max": 5.0e0},
                 {"name": "evp_eta", "min": 1.0e3,   "max": 2.0e3},
             ]
         )

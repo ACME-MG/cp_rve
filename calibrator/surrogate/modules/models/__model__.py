@@ -2,7 +2,7 @@
  Title:         Model
  Description:   Contains the basic structure for a model class
  Author:        Janzen Choi
-
+ 
 """
 
 # The Model Class

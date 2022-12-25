@@ -32,7 +32,7 @@ class DyArea(error.Error):
             thin_indexes = error.get_thin_indexes(len(prd_curves[i]["x"]), NUM_POINTS)
             prd_x_list = [prd_curves[i]["x"][j] for j in thin_indexes]
             prd_y_list = [prd_curves[i]["y"][j] for j in thin_indexes]
-            prd_dy_list = error.get_fd(prd_x_list, prd_y_list)
+            prd_dy_list = error.get_bfd(prd_x_list, prd_y_list)
             exp_dy_list = list(np.polyval(self.exp_polyder_list[i], prd_x_list))
             area = [abs(prd_dy_list[j] - exp_dy_list[j]) for j in range(NUM_POINTS-1) if prd_x_list[j] <= self.exp_x_end_list[i]]
             value_list.append(np.average(area) / self.avg_dy_list[i])
