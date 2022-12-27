@@ -1,13 +1,13 @@
-mesher/rve/results
-mesher/sample/results
-calibrator/optimiser/results
-calibrator/surrogate/results
-simulator/results
-tessellator/results
+__common__/__pycache__
 
-mesher/rve/nohup.out
-mesher/sample/nohup.out
-calibrator/optimiser/nohup.out
-calibrator/surrogate/nohup.out
+mesher/results
+mesher/nohup.out
+mesher/modules/__pycache__
+
+simulator/results
 simulator/nohup.out
+simulator/modules/__pycache__
+
+tessellator/results
 tessellator/nohup.out
+tessellator/modules/__pycache__

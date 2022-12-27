@@ -41,22 +41,3 @@ def get_mean_std(mu, sigma):
     mean = np.exp(mu + sigma**2 / 2)
     variance = (np.exp(sigma**2) - 1) * np.exp(2*mu + sigma**2)
     return round(mean, 5), round(variance ** 0.5, 5)
-
-# # Fits a set of data to a lognormal distribution and returns the statistics
-# def fit_lognormal(data):
-#     params = paramnormal.lognormal.fit(data)
-#     return {
-#         "mu": params[0],
-#         "sigma": params[1],
-#         "mean": np.average(data),
-#         "stdev": np.std(data),
-#         "min": min(data),
-#         "max": max(data),
-#     }
-
-# Plots a lognormal distribution given statistics
-def plot_lognormal(stats):
-    distribution = Lognormal(stats["mu"], stats["sigma"])
-    vals = distribution.get_vals(100)
-    # plt.hist(vals, 100)
-    # plt.savefig("tester")

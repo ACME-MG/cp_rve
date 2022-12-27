@@ -8,17 +8,12 @@
 # Libraries
 from modules.api import API
 
-# Constants
-EQ_RADIUS   = [2.94032, 0.99847, 2.60941, 302.370]
-SPHERICITY  = [-1.6229, 0.40402, 0.02316, 0.57725]
-TWIN_WIDTH  = [1.46831, 0.79859, 1.21113, 284.433]
-
 # Code
-api = API()
-api.load_parents("results/rve_500.tess")
-# api.define_domain(1000, 3)
-# api.add_parents(EQ_RADIUS, SPHERICITY)
+api = API(True)
+api.define_domain(200, 3)
+api.define_radius(2.94032, 0.99847, 2.60941, 302.370)
+api.define_sphericity(-1.6229, 0.40402, 0.02316, 0.57725)
+api.tessellate()
 api.visualise()
 api.orient_random()
-api.get_stats(["x", "y", "z", "vol", "euler-bunge"], False)
-api.commence(False)
+api.export(["x", "y", "z", "phi_1", "Phi", "phi_2"])
