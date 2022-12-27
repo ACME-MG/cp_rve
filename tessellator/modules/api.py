@@ -66,7 +66,7 @@ class API:
         morpho_diameq = f"diameq:lognormal({self.eq_diameter['mean']},{self.eq_diameter['std']},from={self.eq_diameter['min']},to={self.eq_diameter['max']})"
         morpho_sphericity = f"1-sphericity:lognormal({self.sphericity['mean']},{self.sphericity['std']},from={self.sphericity['min']},to={self.sphericity['max']})"
         seed = random.randint(0, 1000) if seed == None else seed
-        run(f"neper -T -n from_morpho -morpho \"{morpho_diameq},{morpho_sphericity}\" {self.shape} -oridescriptor euler-bunge -id {seed} -o {self.rve_path}")
+        run(f"neper -T -n from_morpho -morpho \"{morpho_diameq},{morpho_sphericity}\" {self.shape} -oridescriptor euler-bunge -id {seed} -o {self.rve_path}.tess")
 
     # Loads a tessellation from the input directory
     def load(self, tessellation_file):
@@ -75,7 +75,7 @@ class API:
         dimensions          = int(extractor.extract_data("general", tessellation_path)[1])
         shape_length        = float(extractor.extract_data("domain", tessellation_path, "*edge")[13])
         self.define_domain(shape_length, dimensions)
-        run(f"neper -T -loadtess {tessellation_path} -o {self.rve_path}")
+        run(f"neper -T -loadtess {tessellation_path} -o {self.rve_path}.tess")
 
     # Visualises the tessellation
     def visualise(self):
@@ -106,7 +106,7 @@ class API:
 
     # Extracts a statistic of the grains
     def __get_stat__(self, requested_stats):
-        run(f"neper -T -loadtess {self.rve_path}.tess -statcell {requested_stats} -o {self.rve_path}")
+        run(f"neper -T -loadtess {self.rve_path}.tess -statcell {requested_stats} -o {self.rve_path}.tess")
         with open(f"{self.rve_path}.stcell", "r") as file:
             data = [float(line.replace("\n", "")) for line in file.readlines()]
         return data
