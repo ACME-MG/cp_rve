@@ -69,8 +69,8 @@ class API:
         run(f"neper -T -n from_morpho -morpho \"{morpho_diameq},{morpho_sphericity}\" {self.shape} -oridescriptor euler-bunge -id {seed} -o {self.rve_path}.tess")
 
     # Loads a tessellation from the input directory
-    def load(self, tessellation_file):
-        self.prog.add("Loading in tessellation '{tessellation_file}'")
+    def load_tessellation(self, tessellation_file):
+        self.prog.add(f"Loading in tessellation '{tessellation_file}'")
         tessellation_path   = f"{INPUT_DIR}/{tessellation_file}"
         dimensions          = int(extractor.extract_data("general", tessellation_path)[1])
         shape_length        = float(extractor.extract_data("domain", tessellation_path, "*edge")[13])
