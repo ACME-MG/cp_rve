@@ -10,13 +10,13 @@ The following diagram shows the high level structure of the repository.
 cp_fem/
 ├── __common__/
 ├── tessellator/
-├── rve_mesher/
+├── mesher/
 └── simulator/
 ```
 
 ## Common Directory
 
-The `__common__` directory (`cp_fem/__common__/`) contains common helper code used in the programs in the repository. Each program is contained within their own directory, with an instructive `README.md` document and a `main.py` file. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
+The `__common__` directory (`cp_fem/__common__/`) contains common helper code used in the programs in the repository. Each program is contained within their own directory with a `main.py` file. Once the user has moved into the directory (via `cd`), they can make function calls in `main.py` using the provided `API` class, and run the program via `python3 main.py`.
 
 ## Tessellator
 

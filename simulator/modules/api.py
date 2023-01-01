@@ -6,12 +6,12 @@
 """
 
 # Libraries
-import time, subprocess, os, csv
+import time, subprocess, os, csv, sys
 import modules.material as material
 import modules.simulation as simulation
 
 # Helper libraries
-import sys; sys.path.append("../__common__")
+sys.path.append("../__common__")
 from progressor import Progressor
 from general import safe_mkdir
 

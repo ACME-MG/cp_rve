@@ -6,13 +6,13 @@
 """
 
 # Libraries
-import time, subprocess, random
+import time, subprocess, random, sys
 import modules.lognormal as lognormal
 import modules.extractor as extractor
 import modules.orientation as orientation
 
 # Helper libraries
-import sys; sys.path.append("../__common__")
+sys.path.append("../__common__")
 from progressor import Progressor
 from general import safe_mkdir, write_to_csv, transpose
 
@@ -27,8 +27,9 @@ class API:
     def __init__(self, fancy=False, title="", verbose=False):
         
         # Initialise
-        self.prog = Progressor(fancy, title, verbose)
+        title = title.replace(" ", "")
         suffix = f"_{title}" if title != "" else title
+        self.prog = Progressor(fancy, title, verbose)
 
         # Prepares environment
         self.output_dir     = time.strftime("%y%m%d%H%M%S", time.localtime(time.time()))

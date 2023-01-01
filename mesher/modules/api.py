@@ -6,13 +6,13 @@
 """
 
 # Libraries
-import time, subprocess
+import time, subprocess, sys
 import modules.converter as converter
 import modules.mesher as mesher
 import modules.orientation as orientation
 
 # Helper libraries
-import sys; sys.path.append("../__common__")
+sys.path.append("../__common__")
 from progressor import Progressor
 from general import safe_mkdir, write_to_csv
 
