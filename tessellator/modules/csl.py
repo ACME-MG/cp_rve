@@ -235,10 +235,12 @@ def deg_to_rad(degrees):
     return degrees * math.pi / 180
 
 # Generates a set of (uniformly) random euler-bunge angles 
+# https://github.com/heprom/pymicro/blob/master/pymicro/crystal/microstructure.py
 def random_euler():
-    quat = random_quat()
-    euler = quat_to_euler(*quat) 
-    return euler
+    phi_1 = random.random() * 360.
+    Phi = 180. * math.acos(2 * random.random() - 1) / np.pi
+    phi_2 = random.random() * 360.
+    return [phi_1, Phi, phi_2]
 
 # Generates a (uniformly) random quaternion
 def random_quat():

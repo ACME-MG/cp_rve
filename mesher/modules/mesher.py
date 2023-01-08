@@ -15,21 +15,26 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
     # Define input file
     input_file_content = f"""
     BEGIN SCULPT
+
+        # Dimensions
         nelx = {num_voxels}
         nely = {num_voxels}
         nelz = {num_voxels}
 
-        pillow = 3
-        smooth = 2
+        # Mesh Improvement
+        smooth = 1
+        defeature = 1
+        pillow_curves = true
+        pillow_boundaries = true
+        pillow_curve_layers = 4
+        opt_threshold = 0.8
+        # micro_shave = true
         
-        laplacian_iters = 10
+        # Solver
+        laplacian_iters = 5 # 10
         max_opt_iters = 100
         adapt_type = 5
         adapt_levels = 3
-
-        defeature = 1
-        micro_shave = true
-        remove_bad = 0.0
         
         input_spn = {spn_file}
         exodus_file = {exodus_file}
