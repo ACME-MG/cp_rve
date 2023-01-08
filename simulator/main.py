@@ -10,7 +10,7 @@ from modules.api import API
 
 # Parameters
 DEER_PATH           = "~/moose/deer/deer-opt"
-NUM_PROCESSORS      = 8
+NUM_PROCESSORS      = 128
 MESH_FILE           = "mesh.e"
 ORIENTATION_FILE    = "input_orientations.csv"
 VERBOSE_DISPLAY     = True
