@@ -441,7 +441,7 @@ SIMULATION_FORMAT = """
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
   petsc_options_iname = '-pc_type -pc_factor_mat_solver_package -ksp_gmres_restart -pc_hypre_boomeramg_strong_threshold -pc_hypre_boomeramg_interp_type -pc_hypre_boomeramg_coarsen_type -pc_hypre_boomeramg_agg_nl -pc_hypre_boomeramg_agg_num_paths -pc_hypre_boomeramg_truncfactor'
   petsc_options_value = 'hypre boomeramg 200 0.7 ext+i PMIS 4 2 0.4'
-  line_search = 'bt'
+  line_search = 'none'
 
   # Newton-Raphson solver
   solve_type = NEWTON

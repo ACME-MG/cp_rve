@@ -9,7 +9,7 @@
 from modules.api import API
 
 # Code
-resolution = 32
+resolution = 64
 api = API(True, str(resolution), verbose=True)
 api.tess_2_tesr("rve_1000.tess", resolution)
 api.visualise()
