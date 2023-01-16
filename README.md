@@ -22,9 +22,9 @@ The `__common__` directory (`cp_fem/__common__/`) contains common helper code us
 
 The `tessellator` directory (`cp_fem/tessellator/`) contains code for developing tessellations of cubic microstructures using [Neper](https://github.com/neperfepx/neper).
 
-## RVE Mesher
+## Mesher
 
-The `rve` directory (`cp_fem/mesher/rve/`) contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
+The `mesher` directory (`cp_fem/mesher/`) contains code for creating adaptive hexahedral meshes of microstructures using [Cubit Coreform](https://coreform.com/products/coreform-cubit/). The program has the feature of exporting the crystallographic orientations of the individual grains.
 
 ## Simulator
 

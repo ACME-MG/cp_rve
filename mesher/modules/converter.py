@@ -1,6 +1,6 @@
 """
  Title:         Converter
- Description:   For converting files into various formats
+ Description:   For converting volume information
  Author:        Janzen Choi
 
 """
@@ -8,51 +8,55 @@
 # Libraries
 import subprocess
 
+# Creates an empty grid
+def initialise_grid(length, value=0):
+    grid = [[[value for _ in range(length)] for _ in range(length)] for _ in range(length)]
+    return grid      
+
 # Converts a tessellation (.tess) into a raster tessellation (.tesr)
-def tess_2_tesr(tess_file, tesr_file, num_voxels):
-    loadtess = f"-loadtess {tess_file}"
-    tesr_format = f"-format tesr -tesrsize {num_voxels} -tesrformat ascii"
-    command = f"neper -T {loadtess} {tesr_format} -o {tesr_file}"
+def tess_2_tesr(tess_path, tesr_path, length):
+    loadtess = f"-loadtess {tess_path}"
+    tesr_format = f"-format tesr -tesrsize {length} -tesrformat ascii"
+    command = f"neper -T {loadtess} {tesr_format} -o {tesr_path}"
     subprocess.run([command], shell = True, check = True)
 
-# Converts a raster tessellation (.tesr) to a microstructure file (SPN)
-def tesr_2_spn(tesr_file, spn_file):
+# Converts the raster tessellation file into a 3D grid of grain IDs
+def tesr_2_grid(tesr_path):
 
-    # Open files for reading and writing
-    tesr_file = open(tesr_file, "r")
-    spn_file = open(spn_file, "w+", newline = "")
-
-    # Initialise for tesr to spn conversion
+    # Open file (.tesr) for reading and initialise
+    file = open(tesr_path, "r")
     start_word = "ascii"
     end_word = "***end"
     started = False
-    finished = False
 
-    # Iterate line by line
-    for line in tesr_file:
-        if finished:
+    # Iterate the lines and store grain IDs
+    grain_list = []
+    for line in file:
+        line_list = line.replace("\n", "").split(" ")
+        if start_word in line_list:
+            started = True
+            continue
+        if end_word in line_list:
             break
+        if started:
+            grain_list += [int(id) for id in line_list]
+    file.close()
 
-        # Iterate word for word
-        line = line.replace("\n", " ")
-        for word in line.split(" "):
-            if word == "":
-                continue
+    # Initialise, populate, and return 3D grid
+    length = round(len(grain_list)**(1/3))
+    grain_grid = initialise_grid(length)
+    for i in range(length):
+        for j in range(length):
+            for k in range(length):
+                index = i*length**2 + j*length + k
+                grain_grid[i][j][k] = grain_list[index]
+    return grain_grid
 
-            # If haven't started writing
-            if not started and word == start_word:
-                started = True
-                continue
-
-            # If still writing
-            if started and word != end_word:
-                spn_file.write(f"{int(word)} ")
-
-            # If finished writing
-            if started and word == end_word:
-                finished = True
-                break
-
-    # Close files
-    spn_file.close()
-    tesr_file.close()
+# Converts the grid into a spn file
+def grid_2_spn(grain_grid, spn_path):
+    file = open(spn_path, "w+")
+    for grain_plane in grain_grid:
+        for grain_line in grain_plane:
+            for grain in grain_line:
+                file.write(f"{grain} ")
+    file.close()

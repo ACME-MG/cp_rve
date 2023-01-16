@@ -9,10 +9,10 @@
 from modules.api import API
 
 # Code
-resolution = 64
-api = API(True, str(resolution), verbose=True)
-api.tess_2_tesr("rve_1000.tess", resolution)
+length = 64
+api = API(True, str(length), verbose=True)
+api.read_tessellation("rve_1000.tess", length)
 api.visualise()
-api.tesr_2_spn()
+api.smooth_corners(3)
 api.mesh("~/cubit/psculpt.exe", 1)
 api.export_orientations("stats_1000.csv", 1000)
