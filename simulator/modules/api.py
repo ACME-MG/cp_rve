@@ -9,6 +9,7 @@
 import time, subprocess, os, csv, sys
 import modules.material as material
 import modules.simulation as simulation
+import modules.visualiser as visualiser
 
 # Helper libraries
 sys.path.append("../__common__")
@@ -20,8 +21,8 @@ INPUT_DIR   = "input"
 RESULTS_DIR = "results"
 
 # File Paths
-MATERIAL_FILE       = "material.xml"
-SIMULATION_FILE     = "simulation.i"
+MATERIAL_FILE   = "material.xml"
+SIMULATION_FILE = "simulation.i"
 
 # Default Parameters
 DEFAULT_MATERIAL_PARAMS     = [12, 66.67, 40, 9.55e-8, 12]
@@ -95,3 +96,9 @@ class API:
             input_path      = SIMULATION_FILE,
         )
         subprocess.run([command], shell = True, check = True)
+    
+    # Visualises the reuslts
+    def visualise(self, input_files=[]):
+        self.prog.add("Visualising the results")
+        output_path = f"{self.output_path}/results.png"
+        visualiser.visualise(INPUT_DIR, input_files, output_path)

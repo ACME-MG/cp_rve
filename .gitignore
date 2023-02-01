@@ -1,4 +1,5 @@
 __common__/__pycache__
+.vscode
 
 mesher/results
 mesher/nohup.out

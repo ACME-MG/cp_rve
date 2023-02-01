@@ -85,7 +85,7 @@ SIMULATION_FORMAT = """
         new_system = true
         add_variables = true
         formulation = TOTAL
-        volumetric_locking_correction = false
+        volumetric_locking_correction = true # linear hex elements
         generate_output = 'elastic_strain_xx elastic_strain_yy elastic_strain_zz
                            strain_xx strain_yy strain_zz
                            cauchy_stress_xx cauchy_stress_yy cauchy_stress_zz'

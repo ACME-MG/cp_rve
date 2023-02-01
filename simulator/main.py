@@ -17,6 +17,7 @@ VERBOSE_DISPLAY     = True
 
 # Code
 api = API(DEER_PATH, NUM_PROCESSORS, MESH_FILE, ORIENTATION_FILE, VERBOSE_DISPLAY)
+# api.visualise(["rve_16.csv", "rve_24.csv", "rve_32.csv"])
 api.define_material()
 api.define_simulation()
 api.commence()
