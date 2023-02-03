@@ -451,7 +451,7 @@ SIMULATION_FORMAT = """
   l_tol = 1e-6
 
   # Tolerances on non-linear solve
-  nl_max_its = 15
+  nl_max_its = 16
   nl_rel_tol = 1e-6
   nl_abs_tol = 1e-6
   nl_forced_its = 1
@@ -465,11 +465,11 @@ SIMULATION_FORMAT = """
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    growth_factor = 2
-    cutback_factor = 0.5
+    growth_factor = 1.5
+    cutback_factor = 0.67
     linear_iteration_ratio = 1000
     optimal_iterations = 12
-    iteration_window = 2
+    iteration_window = 1
     dt = {dt_start}
   [../]
 []
