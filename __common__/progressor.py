@@ -10,26 +10,30 @@ import time, os, sys, atexit
 import printer
 
 # Constants
-START_INDEX     = 1
-MIN_PADDING     = 5
-INIT_LENGTH     = 30
-END_PAD_CHAR    = "."
+START_INDEX  = 1
+MIN_PADDING  = 5
+INIT_LENGTH  = 30
+END_PAD_CHAR = "."
+
+# Display settings
+DISPLAY_FANCY = 2
+DISPLAY_PLAIN = 1
+DISPLAY_OFF   = 0
 
 # Statuses
-COMPLETE    = "Complete"
-ONGOING     = "Ongoing"
-FAILED      = "Failed"
+COMPLETE = "Complete"
+ONGOING  = "Ongoing"
+FAILED   = "Failed"
 
 # For visualising the progress of a process
 class Progressor:
 
     # Constructor
-    def __init__(self, fancy=False, title="", verbose=False):
+    def __init__(self, title="", display=DISPLAY_FANCY):
 
         # Initialise inputs
-        self.fancy          = fancy
-        self.final_message  = title
-        self.verbose        = verbose
+        self.title = title
+        self.display = display
         
         # Initialise auxiliary
         self.message_list = []
@@ -39,9 +43,9 @@ class Progressor:
 
     # Print caller depending on fanciness
     def __print__(self, message="", options=[], newline=True):
-        if self.fancy:
+        if self.display == DISPLAY_FANCY:
             printer.print(message, options, newline)
-        else:
+        elif self.display == DISPLAY_PLAIN:
             end = "\n" if newline else ""
             print(message, end=end)
 
@@ -49,7 +53,7 @@ class Progressor:
     def __display__(self):
         
         # Only clear if not verbose
-        if not self.verbose:
+        if self.display != DISPLAY_OFF:
             os.system('cls' if os.name == 'nt' else 'clear')
 
         # Get auxiliary values
@@ -103,7 +107,7 @@ class Progressor:
         # Display final message
         self.__display__()
         total_duration = round(time.time() - self.start_time, 2)
-        final_message = f" ({self.final_message})" if self.final_message != "" else ""
+        final_message = f" ({self.title})" if self.title != "" else ""
         self.__print__(f"\n  Finished in {total_duration}s{final_message}!\n", ["orange"])
 
     # Adds a component to the process

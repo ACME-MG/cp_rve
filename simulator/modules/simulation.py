@@ -8,12 +8,6 @@
 # Libraries
 from modules.material import MATERIAL_NAME
 
-# File Paths
-DEFAULT_OUTPUT_PATH       = "./simulation.i"
-DEFAULT_MESH_FILE         = "./sculpt.e"
-DEFAULT_ORIENTATION_FILE  = "./orientation"
-DEFAULT_MATERIAL_FILE     = "./material.xml"
-
 # Timestepper Parameters
 START_TIME      = 0
 END_TIME        = 36e6
@@ -501,7 +495,7 @@ SIMULATION_FORMAT = """
 """
 
 # Returns the formatted string
-def define_simulation(SN_a0, SN_b0, SN_D_failure, num_cells, mesh_file = DEFAULT_MESH_FILE, orientation_path = DEFAULT_ORIENTATION_FILE, material_file = DEFAULT_MATERIAL_FILE, output_path = DEFAULT_OUTPUT_PATH):
+def define_simulation(SN_a0, SN_b0, SN_D_failure, num_cells, mesh_file, orientation_path, material_file, output_path):
 
     # Define input string
     input_string = SIMULATION_FORMAT.format(

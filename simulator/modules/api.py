@@ -6,99 +6,53 @@
 """
 
 # Libraries
-import time, subprocess, os, csv, sys
+import  subprocess, os, csv, sys
 import modules.material as material
 import modules.simulation as simulation
 import modules.visualiser as visualiser
 
 # Helper libraries
 sys.path.append("../__common__")
-from progressor import Progressor
-from general import safe_mkdir
+from api_template import APITemplate
 
-# Directories
-INPUT_DIR   = "input"
-RESULTS_DIR = "results"
-
-# File Paths
-MATERIAL_FILE   = "material.xml"
-SIMULATION_FILE = "simulation.i"
-
-# Default Parameters
-DEFAULT_MATERIAL_PARAMS     = [12, 66.67, 40, 9.55e-8, 12]
-DEFAULT_SIMULATION_PARAMS   = [4e-5, 5.9e-2, 0.9]
-
-# MPI Constants
-TASKS_PER_NODE = 8
+# Default params
+MATERIAL_PARAMS = [12, 66.67, 40, 9.55e-8, 12]
+SIMULATION_PARAMS = [4e-5, 5.9e-2, 0.9]
 
 # API Class
-class API:
+class API(APITemplate):
 
     # Constructor
-    def __init__(self, deer_path, num_processors, mesh_file, orientation_file, verbose):
+    def __init__(self, title="", display=2):
+        super().__init__(title, display)
+        self.material_file   = "material.xml"
+        self.simulation_file = "simulation.i"
+        self.material_path   = self.get_output(self.material_file)
+        self.simulation_path = self.get_output(self.simulation_file)
 
-        # Initialise
-        self.prog           = Progressor(verbose=verbose)
-        self.deer_path      = deer_path
-        self.num_processors = num_processors
-        self.mesh_file      = mesh_file
+    # Defines the mesh
+    def define_mesh(self, mesh_file, orientation_file):
+        self.add("Defining the mesh")
+        self.mesh_path = self.get_input(mesh_file)
+        self.orientation_path = self.get_input(orientation_file)
+        with open(self.orientation_path, newline = "") as file:
+            self.num_cells = len([row for row in csv.reader(file, delimiter=" ")])
 
-        # Define directories
-        start_time          = time.strftime("%y%m%d%H%M%S", time.localtime(time.time()))
-        self.output_dir     = f"{start_time}_{num_processors}"
-        self.input_path     = INPUT_DIR
-        self.output_path    = "{}/{}".format(RESULTS_DIR, self.output_dir)
+    # Defines the parameters
+    def define_params(self, mat_params=MATERIAL_PARAMS, sim_params=SIMULATION_PARAMS):
+        self.add("Defining the material / simulation parameters")
+        material.define_material(*mat_params, self.material_path)
+        simulation.define_simulation(*sim_params, self.num_cells, f"../../{self.mesh_path}", f"../../{self.orientation_path}", self.material_file, self.simulation_path)
 
-        # Define file paths
-        self.mesh_file_path     = "{}/{}".format(self.input_path, mesh_file)
-        self.orientation_path   = "{}/{}".format(self.input_path, orientation_file)
-        self.material_path      = "{}/{}".format(self.output_path, MATERIAL_FILE)
-        self.simulation_path    = "{}/{}".format(self.output_path, SIMULATION_FILE)
-
-        # Set up environment
-        safe_mkdir(RESULTS_DIR)
-        safe_mkdir(self.output_path)
-
-    # Creates the material file
-    def define_material(self, params = DEFAULT_MATERIAL_PARAMS):
-        self.prog.add("Defining the material XML file")
-        material.define_material(*params, self.material_path)
-
-    # Creates the simulation file
-    def define_simulation(self, params = DEFAULT_SIMULATION_PARAMS):
-        self.prog.add("Defining the simulation input file")
-
-        # Determine number of cells
-        file = open(self.orientation_path, newline = "")
-        all_rows = [row for row in csv.reader(file, delimiter = " ")]
-        num_cells = len(all_rows)
-        file.close()
-
-        # Define relative paths
-        relative_mesh_path = "../../" + self.mesh_file_path
-        relative_orientation_path = "../../" + self.orientation_path
-
-        # Define simulation
-        simulation.define_simulation(*params, num_cells, relative_mesh_path, relative_orientation_path, MATERIAL_FILE, self.simulation_path)
-    
-    # Commences the simulation
-    def commence(self):
-        self.prog.add("Commencing the simulation")
-        
-        # Change to workspace directory
+    # Change to workspace directory, and summons DEER to simulate
+    def simulate(self, deer_path, num_processors):
+        self.add("Commencing the simulation")
         os.chdir("{}/{}".format(os.getcwd(), self.output_path))
-
-        # Calls the psculpt executable to sculpt everything
-        command = "mpiexec -np {num_processors} {deer_path} -i {input_path}".format(
-            deer_path       = self.deer_path,
-            num_processors  = self.num_processors,
-            tasks_per_node  = TASKS_PER_NODE,
-            input_path      = SIMULATION_FILE,
-        )
+        command = f"mpiexec -np {num_processors} {deer_path} -i {self.simulation_file}"
         subprocess.run([command], shell = True, check = True)
     
     # Visualises the reuslts
     def visualise(self, input_files=[]):
-        self.prog.add("Visualising the results")
-        output_path = f"{self.output_path}/results.png"
-        visualiser.visualise(INPUT_DIR, input_files, output_path)
+        self.add("Visualising the results")
+        output_path = self.get_output("results.png")
+        visualiser.visualise(self.input_path, input_files, output_path)
