@@ -23,21 +23,22 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
 
         # Mesh Improvement
         smooth = 2
-        defeature = 1
+        # defeature = 1
         pillow_curves = true
         pillow_boundaries = true
-        pillow_curve_layers = 3
-        opt_threshold = 0.8
+        pillow_curve_layers = 4
+        pillow_curve_thresh = 0.3
+        opt_threshold = 0.7
         micro_shave = true
         
         # Solver
         laplacian_iters = 5
-        max_opt_iters = 100
-        # adapt_type = 5
-        # adapt_levels = 3
+        max_opt_iters = 50
         
+        # Output files
         input_spn = {spn_file}
         exodus_file = {exodus_file}
+        
     END SCULPT
     """
 
