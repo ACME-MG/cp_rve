@@ -30,7 +30,7 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
 
         # Variable mesh improvement
         opt_threshold = 0.7
-        pillow_curve_layers = 4
+        pillow_curve_layers = 5
         pillow_curve_thresh = 0.3
         
         # Solver
