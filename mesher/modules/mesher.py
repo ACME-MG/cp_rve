@@ -21,15 +21,17 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
         nely = {num_voxels}
         nelz = {num_voxels}
 
-        # Mesh Improvement
+        # Fixed mesh improvement
         smooth = 2
-        # defeature = 1
         pillow_curves = true
         pillow_boundaries = true
+        # defeature = 1
+        micro_shave = true
+
+        # Variable mesh improvement
+        opt_threshold = 0.7
         pillow_curve_layers = 4
         pillow_curve_thresh = 0.3
-        opt_threshold = 0.7
-        micro_shave = true
         
         # Solver
         laplacian_iters = 5

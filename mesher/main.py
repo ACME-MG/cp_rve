@@ -1,6 +1,6 @@
 from modules.api import API
 
-length = 32
+length = 48
 api = API(str(length), 0)
 api.read_tessellation("rve_500.tess", length)
 api.visualise()
