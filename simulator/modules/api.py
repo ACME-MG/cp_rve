@@ -9,7 +9,6 @@
 import  subprocess, os, csv, sys
 import modules.material as material
 import modules.simulation as simulation
-import modules.visualiser as visualiser
 
 # Helper libraries
 sys.path.append("../__common__")
@@ -50,9 +49,3 @@ class API(APITemplate):
         os.chdir("{}/{}".format(os.getcwd(), self.output_path))
         command = f"mpiexec -np {num_processors} {deer_path} -i {self.simulation_file}"
         subprocess.run([command], shell = True, check = True)
-    
-    # Visualises the reuslts
-    def visualise(self, input_files=[]):
-        self.add("Visualising the results")
-        output_path = self.get_output("results.png")
-        visualiser.visualise(self.input_path, input_files, output_path)

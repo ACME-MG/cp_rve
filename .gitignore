@@ -1,6 +1,10 @@
 __common__/__pycache__
 .vscode
 
+tessellator/results
+tessellator/nohup.out
+tessellator/modules/__pycache__
+
 mesher/results
 mesher/nohup.out
 mesher/modules/__pycache__
@@ -9,6 +13,6 @@ simulator/results
 simulator/nohup.out
 simulator/modules/__pycache__
 
-tessellator/results
-tessellator/nohup.out
-tessellator/modules/__pycache__
+analyser/results
+analyser/nohup.out
+analyser/modules/__pycache__

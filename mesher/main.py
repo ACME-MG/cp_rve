@@ -1,8 +1,8 @@
 from modules.api import API
 
-length = 32
+length = 16
 api = API(str(length), 0)
-api.read_tessellation("rve_500.tess", length)
+api.read_tessellation(f"rve_500.tess", length)
 api.visualise()
 api.smooth_corners(3)
 api.mesh("~/cubit/psculpt.exe", 1)
