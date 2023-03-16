@@ -48,10 +48,6 @@ def plot_curves(input_directory, output_path, input_tests, directions):
             for i in range(num_directions):
                 strain_list_list[i] += [float(line[strain_index_list[i]])]
 
-        # Apply time and strain factors
-        time_list = [time*input_test["time_factor"] for time in time_list]
-        strain_list_list[i] = [strain*input_test["strain_factor"] for strain in strain_list_list[i]]
-
         # Plot the data
         for i in range(num_directions):
             axes[i].scatter(time_list, strain_list_list[i], marker="o", linewidth=1)

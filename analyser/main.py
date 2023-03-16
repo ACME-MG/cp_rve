@@ -2,6 +2,7 @@ from modules.api import API
 api = API("", 2)
 # api.add_input("500/rve_32b.csv")
 api.add_input("500/rve_16.csv")
+# api.add_input("500/rve_16b.csv")
 api.add_input("500/rve_24.csv")
 api.add_input("500/rve_32.csv")
 api.add_input("500/rve_48.csv")

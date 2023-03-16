@@ -26,13 +26,9 @@ class API(APITemplate):
         self.input_tests = []
 
     # Adds an input file
-    def add_input(self, input_file, time_factor=1, strain_factor=1):
+    def add_input(self, input_file):
         self.add(f"Adding {input_file} to the input")
-        self.input_tests.append({
-            "file":          input_file,
-            "time_factor":   time_factor,
-            "strain_factor": strain_factor,
-        })
+        self.input_tests.append({"file": input_file})
     
     # Summarises the results
     def plot_curves(self, output_file="results", directions=["x", "y", "z"]):
