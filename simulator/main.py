@@ -3,4 +3,4 @@ folder = "500_24_s1"
 api = API(folder, 0)
 api.define_mesh(f"{folder}/mesh.e", f"{folder}/input_orientations.csv")
 api.define_params()
-api.simulate("~/moose/deer/deer-opt", 24)
+api.simulate("~/moose/deer/deer-opt", 12)
