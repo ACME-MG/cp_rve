@@ -85,15 +85,15 @@ SIMULATION_FORMAT = """
                            cauchy_stress_xx cauchy_stress_yy cauchy_stress_zz'
       [../]
     [../]
-    [./CohesiveZoneMaster]
-      [./czm_ik]
-        boundary = 'interface'
-        strain = FINITE
-        generate_output = 'traction_x traction_y traction_z
-                           jump_x jump_y jump_z normal_traction
-                           tangent_traction normal_jump tangent_jump'
-      [../]
-    [../]
+    # [./CohesiveZoneMaster]
+    #   [./czm_ik]
+    #     boundary = 'interface'
+    #     strain = FINITE
+    #     generate_output = 'traction_x traction_y traction_z
+    #                        jump_x jump_y jump_z normal_traction
+    #                        tangent_traction normal_jump tangent_jump'
+    #   [../]
+    # [../]
   [../]
 []
 
@@ -142,31 +142,31 @@ SIMULATION_FORMAT = """
 
 [AuxKernels]
 
-  # Material
-  [./a]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = a
-    execute_on = 'TIMESTEP_END'
-    variable = a
-    check_boundary_restricted = false
-  [../]
-  [./b]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = b
-    execute_on = 'TIMESTEP_END'
-    variable = b
-    check_boundary_restricted = false
-  [../]
-  [./D]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = interface_damage
-    execute_on = 'TIMESTEP_END'
-    variable = D
-    check_boundary_restricted = false
-  [../]
+  # # Material
+  # [./a]
+  #   type = MaterialRealAux
+  #   boundary = 'interface'
+  #   property = a
+  #   execute_on = 'TIMESTEP_END'
+  #   variable = a
+  #   check_boundary_restricted = false
+  # [../]
+  # [./b]
+  #   type = MaterialRealAux
+  #   boundary = 'interface'
+  #   property = b
+  #   execute_on = 'TIMESTEP_END'
+  #   variable = b
+  #   check_boundary_restricted = false
+  # [../]
+  # [./D]
+  #   type = MaterialRealAux
+  #   boundary = 'interface'
+  #   property = interface_damage
+  #   execute_on = 'TIMESTEP_END'
+  #   variable = D
+  #   check_boundary_restricted = false
+  # [../]
 
   # For crystal orientations (quaternion)
   [q1]
@@ -297,13 +297,13 @@ SIMULATION_FORMAT = """
     large_kinematics = true
     euler_angle_reader = euler_angle_file
   [../]
-  [./ShamNeedleman]
-    type = GBCavitation
-    boundary = 'interface'
-    a0 = {SN_a0}
-    b0 = {SN_b0}
-    D_failure = {SN_D_failure}
-  [../]
+  # [./ShamNeedleman]
+  #   type = GBCavitation
+  #   boundary = 'interface'
+  #   a0 = {SN_a0}
+  #   b0 = {SN_b0}
+  #   D_failure = {SN_D_failure}
+  # [../]
 []
 
 # ==================================================
@@ -406,19 +406,19 @@ SIMULATION_FORMAT = """
     variable = elastic_strain_zz
   [../]
 
-  # Mean Cavitation Model Variables
-  [./ma]
-    type = ElementAverageValue
-    variable = a
-  [../]
-  [./mb]
-    type = ElementAverageValue
-    variable = b
-  [../]
-  [./mD]
-    type = ElementAverageValue
-    variable = D
-  [../]
+  # # Mean Cavitation Model Variables
+  # [./ma]
+  #   type = ElementAverageValue
+  #   variable = a
+  # [../]
+  # [./mb]
+  #   type = ElementAverageValue
+  #   variable = b
+  # [../]
+  # [./mD]
+  #   type = ElementAverageValue
+  #   variable = D
+  # [../]
 []
 
 # ==================================================
