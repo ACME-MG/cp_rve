@@ -103,6 +103,20 @@ SIMULATION_FORMAT = """
 
 [AuxVariables]
 
+  # Material
+  [./a]
+    family = MONOMIAL
+    order = CONSTANT
+  [../]
+  [./b]
+    family = MONOMIAL
+    order = CONSTANT
+  [../]
+  [./D]
+    family = MONOMIAL
+    order = CONSTANT
+  [../]
+
   # For crystal orientations (quaternion)
   [./orientation_q1]
     order = CONSTANT
@@ -127,6 +141,32 @@ SIMULATION_FORMAT = """
 # ==================================================
 
 [AuxKernels]
+
+  # Material
+  [./a]
+    type = MaterialRealAux
+    boundary = 'interface'
+    property = a
+    execute_on = 'TIMESTEP_END'
+    variable = a
+    check_boundary_restricted = false
+  [../]
+  [./b]
+    type = MaterialRealAux
+    boundary = 'interface'
+    property = b
+    execute_on = 'TIMESTEP_END'
+    variable = b
+    check_boundary_restricted = false
+  [../]
+  [./D]
+    type = MaterialRealAux
+    boundary = 'interface'
+    property = interface_damage
+    execute_on = 'TIMESTEP_END'
+    variable = D
+    check_boundary_restricted = false
+  [../]
 
   # For crystal orientations (quaternion)
   [q1]
@@ -207,6 +247,24 @@ SIMULATION_FORMAT = """
 # ==================================================
 
 [BCs]
+  [./x0]
+    type = DirichletBC
+    variable = disp_x
+    boundary = x0
+    value = 0.0
+  [../]
+  [./y0]
+    type = DirichletBC
+    variable = disp_y
+    boundary = y0
+    value = 0.0
+  [../]
+  [./z0]
+    type = DirichletBC
+    variable = disp_z
+    boundary = z0
+    value = 0.0
+  [../]
   [./x1]
     type = FunctionNeumannBC
     boundary = x1
@@ -239,14 +297,12 @@ SIMULATION_FORMAT = """
     large_kinematics = true
     euler_angle_reader = euler_angle_file
   [../]
-  [./czm]
-    type = ViscousSlidingCZM
-    displacements = 'disp_x disp_y disp_z'
+  [./ShamNeedleman]
+    type = GBCavitation
     boundary = 'interface'
-    E = 150e3
-    G = 58.3657588e3
-    shear_viscosity = 1e6
-    interface_thickness = 1
+    a0 = {SN_a0}
+    b0 = {SN_b0}
+    D_failure = {SN_D_failure}
   [../]
 []
 
@@ -348,6 +404,20 @@ SIMULATION_FORMAT = """
   [./mEE_zz]
     type = ElementAverageValue
     variable = elastic_strain_zz
+  [../]
+
+  # Mean Cavitation Model Variables
+  [./ma]
+    type = ElementAverageValue
+    variable = a
+  [../]
+  [./mb]
+    type = ElementAverageValue
+    variable = b
+  [../]
+  [./mD]
+    type = ElementAverageValue
+    variable = D
   [../]
 []
 
