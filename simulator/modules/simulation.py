@@ -11,8 +11,8 @@ from modules.material import MATERIAL_NAME
 # Timestepper Parameters
 START_TIME      = 0
 END_TIME        = 36e6
-TIME_DIFF_START = 1e-4
-TIME_DIFF_MIN   = 1e-4
+TIME_DIFF_START = 1e-5
+TIME_DIFF_MIN   = 1e-5
 TIME_DIFF_MAX   = 1e7
 
 # Format for defining simulations
