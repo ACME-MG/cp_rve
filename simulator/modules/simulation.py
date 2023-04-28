@@ -13,7 +13,7 @@ START_TIME      = 0
 END_TIME        = 36e6
 TIME_DIFF_START = 1e-4
 TIME_DIFF_MIN   = 1e-4
-TIME_DIFF_MAX   = 1e6
+TIME_DIFF_MAX   = 1e7
 
 # Format for defining simulations
 SIMULATION_FORMAT = """
@@ -433,16 +433,17 @@ SIMULATION_FORMAT = """
   
   # Options for PETSc (solving linear equations)
   petsc_options = '-snes_converged_reason -ksp_converged_reason'
-  petsc_options_iname = '-pc_type -pc_factor_mat_solver_package -ksp_gmres_restart -pc_hypre_boomeramg_strong_threshold -pc_hypre_boomeramg_interp_type -pc_hypre_boomeramg_coarsen_type -pc_hypre_boomeramg_agg_nl -pc_hypre_boomeramg_agg_num_paths -pc_hypre_boomeramg_truncfactor'
+  petsc_options_iname = '-pc_type -pc_factor_mat_solver_package -ksp_gmres_restart 
+                         -pc_hypre_boomeramg_strong_threshold -pc_hypre_boomeramg_interp_type -pc_hypre_boomeramg_coarsen_type 
+                         -pc_hypre_boomeramg_agg_nl -pc_hypre_boomeramg_agg_num_paths -pc_hypre_boomeramg_truncfactor'
   petsc_options_value = 'hypre boomeramg 200 0.7 ext+i PMIS 4 2 0.4'
-  line_search = 'none'
 
   # Newton-Raphson solver
   solve_type = NEWTON
 
   # Tolerances on linear solve
   l_max_its = 256
-  l_tol = 1e-6
+  l_tol = 1e-4
 
   # Tolerances on non-linear solve
   nl_max_its = 16
@@ -450,6 +451,7 @@ SIMULATION_FORMAT = """
   nl_abs_tol = 1e-6
   nl_forced_its = 1
   n_max_nonlinear_pingpong = 1
+  line_search = 'none'
 
   # Time variables
   start_time = {start_time}
@@ -464,12 +466,13 @@ SIMULATION_FORMAT = """
     scale = 1.0
   [../]
 
+  # Timestep growth
   [./TimeStepper]
     type = IterationAdaptiveDT
-    growth_factor = 1.5
-    cutback_factor = 0.67
+    growth_factor = 2
+    cutback_factor = 0.5
     linear_iteration_ratio = 1000
-    optimal_iterations = 12
+    optimal_iterations = 8
     iteration_window = 1
     dt = {dt_start}
   [../]

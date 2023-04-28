@@ -387,6 +387,14 @@ SIMULATION_FORMAT = """
   dtmin = {dt_min}
   dtmax = {dt_max}
 
+  # Simulation speed up
+  residual_and_jacobian_together = true
+  [./Predictor]
+    type = SimplePredictor
+    scale = 1.0
+  [../]
+
+  # Timestep growth
   [./TimeStepper]
     type = IterationAdaptiveDT
     growth_factor = 1.5
