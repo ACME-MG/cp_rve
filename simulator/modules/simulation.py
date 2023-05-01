@@ -472,7 +472,7 @@ SIMULATION_FORMAT = """
     growth_factor = 2
     cutback_factor = 0.5
     linear_iteration_ratio = 1000
-    optimal_iterations = 8
+    optimal_iterations = 12
     iteration_window = 1
     dt = {dt_start}
   [../]

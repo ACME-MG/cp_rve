@@ -26,7 +26,7 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
         pillow_curves = true
         pillow_boundaries = true
         micro_shave = true
-        scale = 2
+        # scale = 2
 
         # Variable mesh improvement
         # defeature = 1
