@@ -11,8 +11,8 @@ from modules.material import MATERIAL_NAME
 # Timestepper Parameters
 START_TIME      = 0
 END_TIME        = 36e6
-TIME_DIFF_START = 1e-5
-TIME_DIFF_MIN   = 1e-5
+TIME_DIFF_START = 1e-4
+TIME_DIFF_MIN   = 1e-4
 TIME_DIFF_MAX   = 1e7
 
 # Format for defining simulations
@@ -443,7 +443,7 @@ SIMULATION_FORMAT = """
 
   # Tolerances on linear solve
   l_max_its = 256
-  l_tol = 1e-4
+  l_tol = 1e-6
 
   # Tolerances on non-linear solve
   nl_max_its = 16
@@ -460,11 +460,11 @@ SIMULATION_FORMAT = """
   dtmax = {dt_max}
 
   # Simulation speed up
-  residual_and_jacobian_together = true
-  [./Predictor]
-    type = SimplePredictor
-    scale = 1.0
-  [../]
+  # residual_and_jacobian_together = true
+  # [./Predictor]
+  #   type = SimplePredictor
+  #   scale = 1.0
+  # [../]
 
   # Timestep growth
   [./TimeStepper]
