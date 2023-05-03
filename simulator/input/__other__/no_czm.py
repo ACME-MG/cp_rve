@@ -35,6 +35,7 @@ SIMULATION_FORMAT = """
     file = "{mesh_file}"
   [../]
   [./add_side_sets]
+    input = msh
     type = SideSetsFromNormalsGenerator
     normals = '0 -1  0 
                0  1  0
