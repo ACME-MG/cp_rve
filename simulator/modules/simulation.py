@@ -226,19 +226,19 @@ SIMULATION_FORMAT = """
     type = EqualValueBoundaryConstraint
     variable = disp_x
     secondary = 'x1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./y1]
     type = EqualValueBoundaryConstraint
     variable = disp_y
     secondary = 'y1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./z1]
     type = EqualValueBoundaryConstraint
     variable = disp_z
     secondary = 'z1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
 []
 

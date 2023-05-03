@@ -34,22 +34,6 @@ SIMULATION_FORMAT = """
     type = FileMeshGenerator
     file = "{mesh_file}"
   [../]
-  [./breakmesh]
-    input = msh
-    type = BreakMeshByBlockGenerator
-  [../]
-  [./add_side_sets]
-    input = breakmesh
-    type = SideSetsFromNormalsGenerator
-    normals = '0 -1  0 
-               0  1  0
-               -1 0  0
-               1  0  0
-               0  0 -1
-               0  0  1'
-    fixed_normal = true
-    new_boundary = 'y0 y1 x0 x1 z0 z1'
-  [../]
 []
 
 # ==================================================
@@ -226,19 +210,19 @@ SIMULATION_FORMAT = """
     type = EqualValueBoundaryConstraint
     variable = disp_x
     secondary = 'x1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./y1]
     type = EqualValueBoundaryConstraint
     variable = disp_y
     secondary = 'y1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./z1]
     type = EqualValueBoundaryConstraint
     variable = disp_z
     secondary = 'z1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
 []
 
@@ -247,24 +231,6 @@ SIMULATION_FORMAT = """
 # ==================================================
 
 [BCs]
-  [./x0]
-    type = DirichletBC
-    variable = disp_x
-    boundary = x0
-    value = 0.0
-  [../]
-  [./y0]
-    type = DirichletBC
-    variable = disp_y
-    boundary = y0
-    value = 0.0
-  [../]
-  [./z0]
-    type = DirichletBC
-    variable = disp_z
-    boundary = z0
-    value = 0.0
-  [../]
   [./x1]
     type = FunctionNeumannBC
     boundary = x1

@@ -186,19 +186,19 @@ SIMULATION_FORMAT = """
     type = EqualValueBoundaryConstraint
     variable = disp_x
     secondary = 'x1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./y1]
     type = EqualValueBoundaryConstraint
     variable = disp_y
     secondary = 'y1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
   [./z1]
     type = EqualValueBoundaryConstraint
     variable = disp_z
     secondary = 'z1'
-    penalty = 1e5
+    penalty = 1e10
   [../]
 []
 
@@ -206,7 +206,29 @@ SIMULATION_FORMAT = """
 # Boundary Conditions
 # ==================================================
 
+# ==================================================
+# Boundary Conditions
+# ==================================================
+
 [BCs]
+  [./x0]
+    type = DirichletBC
+    variable = disp_x
+    boundary = x0
+    value = 0.0
+  [../]
+  [./y0]
+    type = DirichletBC
+    variable = disp_y
+    boundary = y0
+    value = 0.0
+  [../]
+  [./z0]
+    type = DirichletBC
+    variable = disp_z
+    boundary = z0
+    value = 0.0
+  [../]
   [./x1]
     type = FunctionNeumannBC
     boundary = x1
