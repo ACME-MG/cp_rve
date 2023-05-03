@@ -11,8 +11,8 @@ from modules.material import MATERIAL_NAME
 # Timestepper Parameters
 START_TIME      = 0
 END_TIME        = 36e6
-TIME_DIFF_START = 1e-5
-TIME_DIFF_MIN   = 1e-5
+TIME_DIFF_START = 1e-4
+TIME_DIFF_MIN   = 1e-4
 TIME_DIFF_MAX   = 1e7
 
 # Format for defining simulations
@@ -33,6 +33,17 @@ SIMULATION_FORMAT = """
   [./msh]
     type = FileMeshGenerator
     file = "{mesh_file}"
+  [../]
+  [./add_side_sets]
+    type = SideSetsFromNormalsGenerator
+    normals = '0 -1  0 
+               0  1  0
+               -1 0  0
+               1  0  0
+               0  0 -1
+               0  0  1'
+    fixed_normal = true
+    new_boundary = 'y0 y1 x0 x1 z0 z1'
   [../]
 []
 
