@@ -18,7 +18,7 @@ RESULTS_DIR = "./results"
 class APITemplate:
 
     # Constructor
-    def __init__(self, title="", display=2):
+    def __init__(self, title:str="", display:int=2):
         
         # Prepare progressor
         title = "" if title == "" else f"_{title}"
@@ -35,13 +35,13 @@ class APITemplate:
         safe_mkdir(self.output_path)
 
     # Adds to the progressor
-    def add(self, message):
+    def add(self, message:str):
         self.prog.add(message)
 
     # Gets the input path
-    def get_input(self, path):
+    def get_input(self, path:str):
         return f"{INPUT_DIR}/{path}"
 
     # Gets the output path
-    def get_output(self, path):
+    def get_output(self, path:str):
         return f"{self.output_path}/{path}"
