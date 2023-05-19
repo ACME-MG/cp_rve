@@ -7,7 +7,7 @@
 
 # Libraries
 import  subprocess, os, csv, sys
-import modules.material as material
+import modules.materials.__material__ as material
 import modules.simulations.__simulation__ as simulation
 
 # Helper libraries
@@ -24,7 +24,6 @@ class API(APITemplate):
     # Constructor
     def __init__(self, title:str="", display:int=2):
         super().__init__(title, display)
-        self.material_name   = "material"
         self.material_file   = "material.xml"
         self.simulation_file = "simulation.i"
         self.material_path   = self.get_output(self.material_file)
@@ -38,27 +37,29 @@ class API(APITemplate):
         with open(self.orientation_path, newline = "") as file:
             self.num_grains = len([row for row in csv.reader(file, delimiter=" ")])
 
-    # Defines the parameters
-    def define_params(self, material_params:list[float]=MATERIAL_PARAMS, simulation_params:list[float]=SIMULATION_PARAMS):
-        self.add("Defining the parameters")
-        self.material_params = material_params
-        self.simulation_params = simulation_params
-
     # Defines the material
-    def define_material(self, material_name:str):
+    def define_material(self, material_name:str, material_params:list[float]=MATERIAL_PARAMS):
         self.add(f"Defining the material ({material_name})")
-        material.define_material(*self.material_params, self.material_path)
+        self.material_name = material_name
+        self.material_params = material_params
     
     # Defines the simulation
-    def define_simulation(self, simulation_name:str):
+    def define_simulation(self, simulation_name:str, simulation_params:list[float]=SIMULATION_PARAMS):
         self.add(f"Defining the simulation ({simulation_name})")
-        simulation.create_simulation(simulation_name, self.simulation_params, self.num_grains,
-                                     f"../../{self.mesh_path}", f"../../{self.orientation_path}",
-                                     self.material_name, self.material_file, self.simulation_path)
+        self.simulation_name = simulation_name
+        self.simulation_params = simulation_params
 
     # Change to workspace directory, and summons DEER to simulate
     def simulate(self, deer_path:str, num_processors:int):
         self.add("Commencing the simulation")
+
+        # Create material and simulation files
+        material.create_material(self.material_name, self.material_params, self.material_path)
+        simulation.create_simulation(self.simulation_name, self.simulation_params, self.num_grains,
+                                     f"../../{self.mesh_path}", f"../../{self.orientation_path}",
+                                     self.material_name, self.material_file, self.simulation_path)
+        
+        # Run MOOSE simulation
         os.chdir("{}/{}".format(os.getcwd(), self.output_path))
         command = f"mpiexec -np {num_processors} {deer_path} -i {self.simulation_file}"
         subprocess.run([command], shell = True, check = True)

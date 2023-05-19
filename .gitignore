@@ -12,6 +12,8 @@ mesher/modules/__pycache__
 simulator/results
 simulator/nohup.out
 simulator/modules/__pycache__
+simulator/modules/materials/__pycache__
+simulator/modules/simulations/__pycache__
 
 analyser/results
 analyser/nohup.out
