@@ -456,13 +456,8 @@ SIMULATION_FORMAT = """
 class Simulation(SimulationTemplate):
 
     # Creates the simulation file content
-    def get_content(self, SN_a0, SN_b0, SN_Df):
+    def get_content(self):
         return SIMULATION_FORMAT.format(
-
-        # Parameters
-        SN_a0         = SN_a0,
-        SN_b0         = SN_b0,
-        SN_D_failure  = SN_Df,
 
         # File names
         mesh_path         = self.mesh_path,
