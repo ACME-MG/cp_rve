@@ -32,7 +32,7 @@ SIMULATION_FORMAT = """
 [Mesh]
   [./msh]
     type = FileMeshGenerator
-    file = "{mesh_file}"
+    file = "{mesh_path}"
   [../]
   [./breakmesh]
     input = msh
