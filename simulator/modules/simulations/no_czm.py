@@ -129,32 +129,6 @@ SIMULATION_FORMAT = """
 
 [AuxKernels]
 
-  # # Material
-  # [./a]
-  #   type = MaterialRealAux
-  #   boundary = 'interface'
-  #   property = a
-  #   execute_on = 'TIMESTEP_END'
-  #   variable = a
-  #   check_boundary_restricted = false
-  # [../]
-  # [./b]
-  #   type = MaterialRealAux
-  #   boundary = 'interface'
-  #   property = b
-  #   execute_on = 'TIMESTEP_END'
-  #   variable = b
-  #   check_boundary_restricted = false
-  # [../]
-  # [./D]
-  #   type = MaterialRealAux
-  #   boundary = 'interface'
-  #   property = interface_damage
-  #   execute_on = 'TIMESTEP_END'
-  #   variable = D
-  #   check_boundary_restricted = false
-  # [../]
-
   # For crystal orientations (quaternion)
   [q1]
     type = MaterialStdVectorAux
@@ -234,6 +208,24 @@ SIMULATION_FORMAT = """
 # ==================================================
 
 [BCs]
+  [./x0]
+    type = DirichletBC
+    variable = disp_x
+    boundary = x0
+    value = 0.0
+  [../]
+  [./y0]
+    type = DirichletBC
+    variable = disp_y
+    boundary = y0
+    value = 0.0
+  [../]
+  [./z0]
+    type = DirichletBC
+    variable = disp_z
+    boundary = z0
+    value = 0.0
+  [../]
   [./x1]
     type = FunctionNeumannBC
     boundary = x1

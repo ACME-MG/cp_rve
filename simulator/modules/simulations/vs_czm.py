@@ -32,7 +32,7 @@ SIMULATION_FORMAT = """
 [Mesh]
   [./msh]
     type = FileMeshGenerator
-    file = "{mesh_path}"
+    file = "{mesh_file}"
   [../]
   [./breakmesh]
     input = msh
@@ -60,7 +60,7 @@ SIMULATION_FORMAT = """
   [./euler_angle_file]
     type = ElementPropertyReadFile
     nprop = 3
-    prop_file_name = "{orientation_path}"
+    prop_file_name = "{orientation_file}"
     read_type = block
     nblock = {num_cells}
     use_zero_based_block_indexing = false
@@ -103,20 +103,6 @@ SIMULATION_FORMAT = """
 
 [AuxVariables]
 
-  # Material
-  [./a]
-    family = MONOMIAL
-    order = CONSTANT
-  [../]
-  [./b]
-    family = MONOMIAL
-    order = CONSTANT
-  [../]
-  [./D]
-    family = MONOMIAL
-    order = CONSTANT
-  [../]
-
   # For crystal orientations (quaternion)
   [./orientation_q1]
     order = CONSTANT
@@ -141,32 +127,6 @@ SIMULATION_FORMAT = """
 # ==================================================
 
 [AuxKernels]
-
-  # Material
-  [./a]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = a
-    execute_on = 'TIMESTEP_END'
-    variable = a
-    check_boundary_restricted = false
-  [../]
-  [./b]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = b
-    execute_on = 'TIMESTEP_END'
-    variable = b
-    check_boundary_restricted = false
-  [../]
-  [./D]
-    type = MaterialRealAux
-    boundary = 'interface'
-    property = interface_damage
-    execute_on = 'TIMESTEP_END'
-    variable = D
-    check_boundary_restricted = false
-  [../]
 
   # For crystal orientations (quaternion)
   [q1]
@@ -297,12 +257,14 @@ SIMULATION_FORMAT = """
     large_kinematics = true
     euler_angle_reader = euler_angle_file
   [../]
-  [./ShamNeedleman]
-    type = GBCavitation
+  [./czm]
+    type = ViscousSlidingCZM
+    displacements = 'disp_x disp_y disp_z'
     boundary = 'interface'
-    a0 = {SN_a0}
-    b0 = {SN_b0}
-    D_failure = {SN_D_failure}
+    E = 150e3
+    G = 58.3657588e3
+    shear_viscosity = 1e6
+    interface_thickness = 1
   [../]
 []
 
@@ -405,20 +367,6 @@ SIMULATION_FORMAT = """
     type = ElementAverageValue
     variable = elastic_strain_zz
   [../]
-
-  # Mean Cavitation Model Variables
-  [./ma]
-    type = ElementAverageValue
-    variable = a
-  [../]
-  [./mb]
-    type = ElementAverageValue
-    variable = b
-  [../]
-  [./mD]
-    type = ElementAverageValue
-    variable = D
-  [../]
 []
 
 # ==================================================
@@ -443,7 +391,7 @@ SIMULATION_FORMAT = """
 
   # Tolerances on linear solve
   l_max_its = 256
-  l_tol = 1e-6
+  l_tol = 1e-4
 
   # Tolerances on non-linear solve
   nl_max_its = 16
@@ -460,11 +408,11 @@ SIMULATION_FORMAT = """
   dtmax = {dt_max}
 
   # Simulation speed up
-  # residual_and_jacobian_together = true
-  # [./Predictor]
-  #   type = SimplePredictor
-  #   scale = 1.0
-  # [../]
+  residual_and_jacobian_together = true
+  [./Predictor]
+    type = SimplePredictor
+    scale = 1.0
+  [../]
 
   # Timestep growth
   [./TimeStepper]
@@ -472,7 +420,7 @@ SIMULATION_FORMAT = """
     growth_factor = 2
     cutback_factor = 0.5
     linear_iteration_ratio = 1000
-    optimal_iterations = 12
+    optimal_iterations = 8
     iteration_window = 1
     dt = {dt_start}
   [../]
