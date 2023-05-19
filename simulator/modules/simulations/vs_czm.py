@@ -60,7 +60,7 @@ SIMULATION_FORMAT = """
   [./euler_angle_file]
     type = ElementPropertyReadFile
     nprop = 3
-    prop_file_name = "{orientation_file}"
+    prop_file_name = "{orientation_path}"
     read_type = block
     nblock = {num_cells}
     use_zero_based_block_indexing = false
