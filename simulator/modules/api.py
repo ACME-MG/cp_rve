@@ -38,13 +38,13 @@ class API(APITemplate):
             self.num_grains = len([row for row in csv.reader(file, delimiter=" ")])
 
     # Defines the material
-    def define_material(self, material_name:str, material_params:list[float]=MATERIAL_PARAMS):
+    def define_material(self, material_name:str, material_params:list=MATERIAL_PARAMS):
         self.add(f"Defining the material ({material_name})")
         self.material_name = material_name
         self.material_params = material_params
     
     # Defines the simulation
-    def define_simulation(self, simulation_name:str, simulation_params:list[float]=SIMULATION_PARAMS):
+    def define_simulation(self, simulation_name:str, simulation_params:list=SIMULATION_PARAMS):
         self.add(f"Defining the simulation ({simulation_name})")
         self.simulation_name = simulation_name
         self.simulation_params = simulation_params

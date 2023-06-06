@@ -34,13 +34,13 @@ class SimulationTemplate:
         raise NotImplementedError
     
     # Creates the simulation file
-    def create_file(self, params:list[str]) -> None:
+    def create_file(self, params:list) -> None:
         content = self.get_content(*params)
         with open(self.output_path, "w+") as file:
             file.write(content)
 
 # Creates a simulation file
-def create_simulation(simulation_name:str, params:list[float], num_grains:int, mesh_path:str, orientation_path:str, material_name:str, material_file:str, output_path:str) -> None:
+def create_simulation(simulation_name:str, params:list, num_grains:int, mesh_path:str, orientation_path:str, material_name:str, material_file:str, output_path:str) -> None:
 
     # Get available simulations in current folder
     files = os.listdir(PATH_TO_SIMULATIONS)

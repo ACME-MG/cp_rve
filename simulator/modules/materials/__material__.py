@@ -29,13 +29,13 @@ class MaterialTemplate:
         raise NotImplementedError
     
     # Creates the material file
-    def create_file(self, params:list[float]) -> None:
+    def create_file(self, params:list) -> None:
         content = self.get_content(*params)
         with open(self.output_path, "w+") as file:
             file.write(content)
 
 # Creates a material file
-def create_material(material_name:str, params:list[float], material_path:str) -> None:
+def create_material(material_name:str, params:list, material_path:str) -> None:
 
     # Get available materials in current folder
     files = os.listdir(PATH_TO_MATERIALS)
