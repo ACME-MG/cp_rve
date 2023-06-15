@@ -8,7 +8,6 @@
 # Libraries
 import subprocess, os, csv, inspect
 import numpy as np
-import pandas as pd
 import printer as printer
 
 # For safely making a directory
@@ -76,5 +75,5 @@ def is_number(variable):
 
 # Transposes a 2D list of lists
 def transpose(list_of_lists):
-    transposed = pd.DataFrame(list_of_lists).T.values.tolist()
+    transposed = np.array(list_of_lists).T.tolist()
     return transposed
