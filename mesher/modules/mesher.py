@@ -10,8 +10,8 @@
 import subprocess, os
 
 # Converts a microstructure file (.spn) into an adaptive hexahedral mesh
-def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, num_voxels):
-    
+def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, num_voxels, scale_factor):
+
     # Define input file
     input_file_content = f"""
     BEGIN SCULPT
@@ -26,7 +26,7 @@ def spn_mesh(spn_file, exodus_file, input_file, psculpt_path, num_processors, nu
         pillow_curves = true
         pillow_boundaries = true
         micro_shave = true
-        # scale = 2
+        scale = {scale_factor}
 
         # Variable mesh improvement
         defeature = 1

@@ -7,10 +7,10 @@
 
 # Libraries
 import subprocess, sys
-import modules.converter as converter
-import modules.improver as improver
-import modules.mesher as mesher
-import modules.orientation as orientation
+from modules.improver import smooth_corners
+from modules.mesher import spn_mesh
+from modules.converter import tess_2_tesr, tesr_2_grid, grid_2_spn
+from modules.orientation import get_orientations, renumber_grain_ids
 
 # Helper libraries
 sys.path.append("../__common__")
@@ -30,14 +30,14 @@ class API(APITemplate):
         self.length = length
         tess_path = self.get_input(tess_file)
         self.tesr_path = self.get_output("rve.tesr")
-        converter.tess_2_tesr(tess_path, self.tesr_path, length)
-        self.grain_grid = converter.tesr_2_grid(self.tesr_path)
+        tess_2_tesr(tess_path, self.tesr_path, length)
+        self.grain_grid = tesr_2_grid(self.tesr_path)
   
     # Smooths the corners of grains
     def smooth_corners(self, iterations=1):
         self.add(f"Smoothing the corner of grains for {iterations} iteration(s)")
         for _ in range(iterations):
-            self.grain_grid = improver.smooth_corners(self.grain_grid)
+            self.grain_grid = smooth_corners(self.grain_grid)
 
     # Visualises a raster tessellation
     def visualise(self):
@@ -52,14 +52,17 @@ class API(APITemplate):
         self.spn_path = self.get_output("rve.spn")
         self.exodus_path = self.get_output("mesh.e")
         self.sculpt_path = self.get_output("sculpt_input.i")
-        converter.grid_2_spn(self.grain_grid, self.spn_path)
-        orientation.renumber_grain_ids(self.spn_path)
-        mesher.spn_mesh(self.spn_path, self.exodus_path, self.sculpt_path, psculpt_path, num_processors, self.length)
+        scale_factor = 1
+        grid_2_spn(self.grain_grid, self.spn_path)
+        renumber_grain_ids(self.spn_path)
+        spn_mesh(self.spn_path, self.exodus_path, self.sculpt_path, psculpt_path,
+                 num_processors, self.length, scale_factor)
 
     # Gets the new orientations
     def export_orientations(self, stats_file, tess_length):
         self.add("Calculating and exporting the orientations")
         stats_path = self.get_input(stats_file)
         self.orientation_path = self.get_output("input_orientations.csv")
-        orientation_list = orientation.get_orientations(stats_path, [tess_length]*3, self.spn_path, [self.length]*3, self.exodus_path)
+        orientation_list = get_orientations(stats_path, [tess_length]*3, self.spn_path,
+                                            [self.length]*3, self.exodus_path)
         write_to_csv(self.orientation_path, orientation_list)
